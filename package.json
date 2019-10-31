@@ -1,0 +1,23 @@
+{
+  "name": "sportsbettingwebsite",
+  "version": "1.0.0",
+  "description": "Sports website allowing users to bet on real time game with fake currency",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkashK23/SportsBettingWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AkashK23/SportsBettingWebsite/issues"
+  },
+  "homepage": "https://github.com/AkashK23/SportsBettingWebsite#readme",
+  "dependencies": {
+    "bulma": "^0.8.0",
+    "jquery": "^3.4.1"
+  }
+}
