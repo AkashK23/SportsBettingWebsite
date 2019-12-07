@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" />
+<!--     <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet"> -->
+    <title>Sports Betting</title>
+</head>
+
+<body>
+
+
+    <div>
+            <button onclick="sign_in()" class="button">
+                    Login
+                </button>
+    </div>
+
+        
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+    <!-- Initialize Firebase -->
+    <!-- <script src="/__/firebase/init.js"></script> -->
+  <script>
+      var firebaseConfig = {
+  apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
+  authDomain: "sportsbetting-61b8e.firebaseapp.com",
+  databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
+  projectId: "sportsbetting-61b8e",
+  storageBucket: "sportsbetting-61b8e.appspot.com",
+  messagingSenderId: "688706831427",
+  appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
+  measurementId: "G-QZQS0PGRJD"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+var provider = new firebase.auth.GoogleAuthProvider();
+function sign_in() {
+    firebase.auth().signInWithRedirect(provider);
+}
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+
+        window.location.href = "index.html";
+    } else {
+    }
+});
+  </script>
+</body>
+
+</html>

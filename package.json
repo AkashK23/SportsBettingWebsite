@@ -18,6 +18,7 @@
   "homepage": "https://github.com/AkashK23/SportsBettingWebsite#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "browser-sync": "^2.26.7",
     "bulma": "^0.8.0",
     "jquery": "^3.4.1"
   }
