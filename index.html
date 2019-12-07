@@ -93,6 +93,41 @@
             </nav>
         </div>
     </section>
+
+    <div class="card" id="idCard">
+        <header class="card-header">
+            <p class="card-header-title">
+            </p>
+            <button class="button is-info is-light editB is-pulled-right" id="editBut"
+                data="     result.data[i].id     ">Edit</button>
+            <button class="button is-danger is-light deleteB is-pulled-right"
+                data="     result.data[i].id     ">Delete</button>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                result.data[i].body
+            </div>
+        </div>
+        <footer class="card-footer">
+            <div class="columns is-mobile">
+                <div class="column" id="likeArea">
+                    <p> result.data[i].likeCount </p>
+                    <button class="button is-info is-light likeB" value=" result.data[i].isLiked  " id="likeBut "
+                        data=" result.data[i].id ">Like</button>
+                </div>
+                <div class=" column" id="retweetArea">
+                    <p> result.data[i].retweetCount </p>
+                    <button class="button is-info is-light retweetB">Retweet</button>
+                </div>
+                <div class="column" id="replyArea">
+                    <p> result.data[i].replyCount </p>
+                    <button class="button is-info is-light replyB">Reply</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
     <script src="script.js"></script>
 </body>
 
