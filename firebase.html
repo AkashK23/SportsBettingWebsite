@@ -17,6 +17,12 @@
                 </button>
     </div>
 
+    <!-- <div id = 'subtract'>
+      <button onclick="subtract200()" class="button">
+        Subtract 200
+      </button>
+    </div> -->
+
         
   <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
@@ -52,6 +58,25 @@ function sign_in() {
     firebase.auth().signInWithRedirect(provider);
 }
 
+
+function subtract200() {
+    let user = firebase.auth().currentUser;
+    if(user) {
+      var docRef = db.collection("users").doc(user.uid);
+
+      docRef.get().then(function (doc) {
+        var filename = 0;
+        if (doc.exists) {
+          filename = doc.data().money - 200;
+          db.collection("users").doc(user.uid).update({ money: filename });
+          console.log(filename);
+          } else {
+            db.collection("users").doc(user.uid).set({ money: 1000 });
+          }
+        });
+    }
+}
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
 
@@ -61,13 +86,14 @@ firebase.auth().onAuthStateChanged(function (user) {
         var docRef = db.collection("users").doc(user.uid);
 
         docRef.get().then(function (doc) {
-          var filename = 0;
           if (doc.exists) {
             console.log(doc.data().count);
           } else {
             db.collection("users").doc(user.uid).set({ money: 1000 });
           }
         });
+
+
         // window.location.href = "index.html";
 
     } else {
