@@ -1,28 +1,10 @@
-const axios = require('axios')
+//const axios = require('axios')
 
 //Get Odds from the 3rd party api The-Odds-Api for upcoming football games
 
 // An api key is emailed to you when you sign up to a plan
 const api_key = 'b1eac66fa719b3b2658e9ef93cbb43b6'
 
-// Get a list of in season sports
-// axios.get('https://api.the-odds-api.com/v3/sports', {
-//     params: {
-//         api_key: api_key
-//     }
-// }).then(response => {
-
-//     console.log(
-//         `Successfully got ${response.data.data.length} sports.`,
-//         `Here's the first sport:`
-//     )
-
-//     console.log(response.data.data[0])
-// })
-//     .catch(error => {
-//         console.log('Error status', error.response.status)
-//         console.log(error.response.data)
-//     })
 
 // To get odds for a sepcific sport, use the sport key from the last request
 //   or set sport to "upcoming" to see live and upcoming across all sports
@@ -80,11 +62,19 @@ function myFunction(xml) {
     var xmlDoc = xml.responseXML;
     var counter = 0;
     var myString = "";
-
+    var gameObj = {};
     while (counter < xmlDoc.getElementsByTagName('g').length) {
         myString += " " + xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn');
+        console.log(xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn'));
+        
+        gameObj["homeTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn');
+        gameObj["visitorTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('vnn');
+        gameObj["Day"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('d');
+        gameObj["Time"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('t');
+        gameObj["Time"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('t');
         counter++;
+        //gameObj["visitorTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('gnn');
     }
-
+    console.log(xmlDoc.getElementsByTagName('g')[0]);
     document.getElementById('root').innerHTML = myString;
 }
