@@ -1,10 +1,19 @@
 
-const axios = require('axios')
+//const axios = require('axios')
+
 
 //Get Odds from the 3rd party api The-Odds-Api for upcoming football games
 
 // An api key is emailed to you when you sign up to a plan
 const api_key = 'b1eac66fa719b3b2658e9ef93cbb43b6'
+
+
+
+// To get odds for a sepcific sport, use the sport key from the last request
+//   or set sport to "upcoming" to see live and upcoming across all sports
+
+
+//e29fd820d31529137a4df765b855f50cc8db6de4
 let sport_key = "americanfootball_nfl"
 
 axios.get('https://api.the-odds-api.com/v3/odds', {
@@ -58,11 +67,24 @@ function myFunction(xml) {
     var xmlDoc = xml.responseXML;
     var counter = 0;
     var myString = "";
-
+    var gameObj = {};
     while (counter < xmlDoc.getElementsByTagName('g').length) {
         myString += " " + xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn');
+        console.log(xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn'));
+        
+        gameObj["homeTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('hnn');
+        gameObj["visitorTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('vnn');
+        gameObj["Day"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('d');
+        gameObj["Time"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('t');
+        gameObj["Time"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('t');
         counter++;
+        //gameObj["visitorTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('gnn');
     }
 
+    console.log(xmlDoc.getElementsByTagName('g')[0]);
+    document.getElementById('root').innerHTML = myString;
+
+
     // document.getElementById('root').innerHTML = myString;
+
 }
