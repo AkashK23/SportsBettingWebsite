@@ -61,14 +61,14 @@ var xhttp = new XMLHttpRequest();
 
 xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-        myFunction(this);
+        xmlParser(this);
     }
 }
 
 xhttp.open("GET", url, true);
 xhttp.send();
 
-function myFunction(xml) {
+function xmlParser(xml) {
     var xmlDoc = xml.responseXML;
     var counter = 0;
     var myString = "";
@@ -112,8 +112,8 @@ async function printOdds() {
         gameOdds.push(odds);
     }
     console.log(gameOdds);
-
 }
+
 function getDate(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -126,6 +126,7 @@ function getDate(UNIX_timestamp) {
     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
     return time;
 }
+
 function avgOdds(sites, home) {
     let firstOdd = 0;
     let secondOdd = 0;
