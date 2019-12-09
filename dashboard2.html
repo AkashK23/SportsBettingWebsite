@@ -15,9 +15,98 @@
     <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">     <title>
     Sports Betting</title>
     <style>
-
+            .grid-container {
+              display: grid;
+              grid-template-columns: 1fr; /* Side nav is hidden on mobile */
+              grid-template-rows: 50px 1fr 50px;
+              grid-template-areas:
+                'header'
+                'main'
+                'footer';
+              height: 100vh;
+            }
+            
+            .sidenav {
+              display: none;
+              grid-area: sidenav;
+              background-color: #394263;
+            }
+            
+            .main-cards {
+              column-count: 1;
+              column-gap: 20px;
+              margin: 20px;
+            }
+            
+            /* Non-mobile styles, 750px breakpoint */
+            @media only screen and (min-width: 46.875em) {
+              /* Show the sidenav */
+              .grid-container {
+                grid-template-columns: 240px 1fr; /* Show the side nav for non-mobile screens */
+                grid-template-areas:
+                  "sidenav header"
+                  "sidenav main"
+                  "sidenav footer";
+              }
+              .sidenav {
+                display: flex;
+                flex-direction: column;
+              }
+            }
+            /* Medium-sized screen breakpoint (tablet, 1050px) */
+            @media only screen and (min-width: 65.625em) {
+              /* Break out main cards into two columns */
+              .main-cards {
+                column-count: 2;
+              }
+            }
+            
 * {
   box-sizing: border-box;
+}
+
+
+.main-cards {
+    column-count: 2;
+    column-gap: 20px;
+    margin: 20px;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #82bef6;
+    margin-bottom: 20px;
+    -webkit-column-break-inside: avoid;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  /* Force varying heights to simulate dynamic content */
+  .card:first-child {
+    height: 485px;
+  }
+  .card:nth-child(2) {
+    height: 200px;
+  }
+  .card:nth-child(3) {
+    height: 265px;
+  }
+
+
+  .menu-icon {
+  position: fixed;
+  display: flex;
+  top: 5px;
+  left: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1;
+  cursor: pointer;
+  padding: 12px;
+  background-color: #DADAE3;
 }
 
         #myInput {
@@ -209,6 +298,8 @@
 
 
         </aside>
+
+        
         <main class="main">
             <div class="main-header__heading">Hello User</div>
             <div class="main-header__updates">Recent Items</div>
@@ -237,8 +328,50 @@
         </footer>
     </div>
 
+    <script>
+            const menuIconEl = $('.menu-icon');
+            const sidenavEl = $('.sidenav');
+            const sidenavCloseEl = $('.sidenav__close-icon');
+        
+            // Add and remove provided class names
+            function toggleClassName(el, className) {
+              if (el.hasClass(className)) {
+                el.removeClass(className);
+              } else {
+                el.addClass(className);
+              }
+            }
+        
+            // Open the side nav on click
+            menuIconEl.on('click', function() {
+              toggleClassName(sidenavEl, 'active');
+            });
+        
+            // Close the side nav on click
+            sidenavCloseEl.on('click', function() {
+              toggleClassName(sidenavEl, 'active');
+            });
+          </script>
+
+    <div class="grid-container">
+            <div class="menu-icon">
+              <i class="fas fa-bars"></i>
+            </div>
+          </div>
+
+
+          <aside class="sidenav">
+                <div class="sidenav__close-icon">
+                  <i class="fas fa-times"></i>
+                </div>
+              </aside>
+
+
+
 
     <script src="script.js"></script>
 </body>
+
+
 
 </html>
