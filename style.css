@@ -4,7 +4,6 @@ body, html {
     height: 100%;
 }
 
-
 .hero-image {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/resources/footballfield.jpg");
     height: 50%;
