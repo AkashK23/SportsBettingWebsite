@@ -1,4 +1,6 @@
+
 //const axios = require('axios')
+
 
 //Get Odds from the 3rd party api The-Odds-Api for upcoming football games
 
@@ -6,9 +8,12 @@
 const api_key = 'b1eac66fa719b3b2658e9ef93cbb43b6'
 
 
+
 // To get odds for a sepcific sport, use the sport key from the last request
 //   or set sport to "upcoming" to see live and upcoming across all sports
 
+
+//e29fd820d31529137a4df765b855f50cc8db6de4
 let sport_key = "americanfootball_nfl"
 
 axios.get('https://api.the-odds-api.com/v3/odds', {
@@ -75,6 +80,11 @@ function myFunction(xml) {
         counter++;
         //gameObj["visitorTeam"] = xmlDoc.getElementsByTagName('g')[counter].getAttribute('gnn');
     }
+
     console.log(xmlDoc.getElementsByTagName('g')[0]);
     document.getElementById('root').innerHTML = myString;
+
+
+    // document.getElementById('root').innerHTML = myString;
+
 }
