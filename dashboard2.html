@@ -15,6 +15,44 @@
     <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">     <title>
     Sports Betting</title>
     <style>
+
+body,
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+
+body {
+   background: #444444;
+   color: white;
+   font: 15px/1.51 system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+   margin:0 auto;
+   max-width:800px;
+   padding:20px;
+}
+
+form {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  padding: 5px;
+  margin: 5px 0 0 0;
+}
+
+input {
+  padding:8px 20px;
+  border-radius: 2px;
+  border:0;
+  font-size:20px;
+}
+.status-key,
+.status-ajax {
+  margin:10px 0;
+}
+.status-ajax {
+  color:#99FF7E;
+}
             .grid-container {
               display: grid;
               grid-template-columns: 1fr; /* Side nav is hidden on mobile */
@@ -368,8 +406,17 @@
 
 
 
+              <form>
+                  <div class="status-key">Type here. I will detect when you stop typing</div>
+                  <input type="text" class="autocomplete">
+                  <div class="status-ajax"></div>
+                </form>
+
 
     <script src="script.js"></script>
+
+
+
 </body>
 
 
