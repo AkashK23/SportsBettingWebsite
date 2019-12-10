@@ -24,6 +24,7 @@ export async function getOdds(id) {
             mkt: 'h2h' // h2h | spreads | totals
         }
     });
+    console.log('Remaining requests', odds.headers['x-requests-remaining'])
     return odds.data.data;
     // .then(response => {
     //     // odds_json['data'] contains a list of live and 
