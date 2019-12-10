@@ -267,7 +267,7 @@ input {
         }
 
         .overviewcard {
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: space-between;
             padding: 20px;
@@ -341,8 +341,16 @@ input {
         <main class="main">
             <div class="main-header__heading">Hello User</div>
             <div class="main-header__updates">Recent Items</div>
-            <div class="main-overview">
-                <div class="overviewcard">
+            <div class="main-overview" id="cardHolder">
+                <div class="overviewcard" id="gameCard">
+                    <div class="overviewcard__icon">
+                      <p id="teamNames">Home vs Away</p>
+                      <p id="gameOdds">Odds:</p>
+                      <p id="gameDate">Date:</p>
+                    </div>
+                    <button class="betButton">Bet Button</button>
+                </div>
+                <!-- <div class="overviewcard">
                     <div class="overviewcard__icon">Overview</div>
                     <div class="overviewcard__info">Card</div>
                 </div>
@@ -353,11 +361,7 @@ input {
                 <div class="overviewcard">
                     <div class="overviewcard__icon">Overview</div>
                     <div class="overviewcard__info">Card</div>
-                </div>
-                <div class="overviewcard">
-                    <div class="overviewcard__icon">Overview</div>
-                    <div class="overviewcard__info">Card</div>
-                </div>
+                </div> -->
             </div>
         </main>
         <footer class="footer">
@@ -365,30 +369,106 @@ input {
             <div class="footer__signature">Made with love by pure genius</div>
         </footer>
     </div>
-
-    <script>
-            const menuIconEl = $('.menu-icon');
-            const sidenavEl = $('.sidenav');
-            const sidenavCloseEl = $('.sidenav__close-icon');
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module">
+            // const menuIconEl = $('.menu-icon');
+            // const sidenavEl = $('.sidenav');
+            // const sidenavCloseEl = $('.sidenav__close-icon');
         
-            // Add and remove provided class names
-            function toggleClassName(el, className) {
-              if (el.hasClass(className)) {
-                el.removeClass(className);
-              } else {
-                el.addClass(className);
+            // // Add and remove provided class names
+            // function toggleClassName(el, className) {
+            //   if (el.hasClass(className)) {
+            //     el.removeClass(className);
+            //   } else {
+            //     el.addClass(className);
+            //   }
+            // }
+        
+            // // Open the side nav on click
+            // menuIconEl.on('click', function() {
+            //   toggleClassName(sidenavEl, 'active');
+            // });
+        
+            // // Close the side nav on click
+            // sidenavCloseEl.on('click', function() {
+            //   toggleClassName(sidenavEl, 'active');
+            // });
+            const api_key = 'b1eac66fa719b3b2658e9ef93cbb43b6'
+            let sport_key = "americanfootball_nfl"
+            export async function getOdds(id) {
+              const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
+                params: {
+                  api_key: api_key,
+                  sport: sport_key,
+                  region: 'us', // uk | us | au
+                  mkt: 'h2h' // h2h | spreads | totals
+                }
+              });
+              console.log('Remaining requests', odds.headers['x-requests-remaining'])
+              return odds.data.data;
+            };
+
+            async function printOdds() {
+              var gameOdds = [];
+              let result = await getOdds();
+              console.log(result);
+              //let result = result.data;
+              for (let i = 0; i < result.length; i++) {
+                  var odds = {};
+                  console.log(result[0])
+                  odds["Home"] = result[i].home_team;
+                  if (odds["Home"] === result[i].teams[0]) {
+                      odds["odds"] = avgOdds(result[i].sites, 0);
+                      odds["Away"] = result[i].teams[1];
+                  } else {
+                      odds["odds"] = avgOdds(result[i].sites, 1);
+                      odds["Away"] = result[i].teams[0];
+                  }
+                  odds["date"] = getDate(result[i].commence_time);
+                  
+                  gameOdds.push(odds);
+              }
+              console.log(gameOdds[0].Home);
+              for (let i = 0; i < gameOdds.length; i++) {
+                let clone = document.getElementById("gameCard").cloneNode(true);
+                let names = clone.querySelector("#teamNames");
+                names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
+                let oddsHtml = clone.querySelector("#gameOdds");
+                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0,4) + " , " + gameOdds[i].odds[1].toString().substring(0,4);
+                let gameDate = clone.querySelector("#gameDate");
+                gameDate.innerHTML = gameOdds[i].date;
+                clone.style.display = "flex";
+                document.getElementById("cardHolder").appendChild(clone);
               }
             }
-        
-            // Open the side nav on click
-            menuIconEl.on('click', function() {
-              toggleClassName(sidenavEl, 'active');
-            });
-        
-            // Close the side nav on click
-            sidenavCloseEl.on('click', function() {
-              toggleClassName(sidenavEl, 'active');
-            });
+
+            function getDate(UNIX_timestamp) {
+                var a = new Date(UNIX_timestamp * 1000);
+                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                var year = a.getFullYear();
+                var month = months[a.getMonth()];
+                var date = a.getDate();
+                var hour = a.getHours();
+                var min = a.getMinutes();
+                var sec = a.getSeconds();
+                var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+                return time;
+            }
+
+            function avgOdds(sites, home) {
+                let firstOdd = 0;
+                let secondOdd = 0;
+                for (let i = 0; i < sites.length; i++) {
+                    firstOdd += sites[i].odds.h2h[0];
+                    secondOdd += sites[i].odds.h2h[1];
+                }
+                if (home === 0) {
+                    return [firstOdd/sites.length, secondOdd/sites.length];
+                }
+                return [secondOdd/sites.length, firstOdd/sites.length];
+                
+            }
+            printOdds();
           </script>
 
     <div class="grid-container">
@@ -413,7 +493,7 @@ input {
                 </form>
 
 
-    <script src="script.js"></script>
+    <!-- <script type="module" src="script.js"></script> -->
 
 
 
