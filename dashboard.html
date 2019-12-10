@@ -110,6 +110,14 @@
             padding: 20px;
             background-color: #d3d3;
         }
+
+        #football-cover {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/resources/cover.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
     </style>
 </head>
 
@@ -131,8 +139,14 @@
             </ul>
         </aside>
         <main class="main">
-            <div class="main-header__heading">Hello User</div>
-            <div class="main-header__updates">Recent Items</div>
+            <div id="football-cover">
+                <div>
+                    <div class="main-header__heading">Hello User</div>
+                    <div class="main-header__updates">Recent Items</div>
+                </div>
+
+            </div>
+
             <div class="main-overview">
                 <div class="overviewcard">
                     <div class="overviewcard__icon">Overview</div>
