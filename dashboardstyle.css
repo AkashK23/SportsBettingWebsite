@@ -14,8 +14,13 @@ body {
 }
 
 .betField {
+  color: #444444;
   height: 20%;
   width: 50%
+}
+
+.selectTeam {
+  color: #444444;
 }
 
 form {
