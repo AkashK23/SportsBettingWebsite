@@ -14,102 +14,45 @@
 
     <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">     <title>
     Sports Betting</title>
-    <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .hero-image {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/resources/footballfield.jpg");
-            min-height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: relative;
-        }
-
-        .hero-text {
-            text-align: center;
-            position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-        }
-
-        h1 {
-            font-size: 60px;
-        }
-
-        h3 {
-            font-size: 20px;
-        }
-
-        .topnavbar {
-            width: 100%;
-            background-color: rgba(85, 85, 85, 0);
-            overflow: auto;
-        }
-
-        .topnavbar a {
-            float: right;
-            text-align: center;
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            font-size: 32px;
-        }
-
-        .topnavbar a:hover {
-            background-color: #000;
-        }
-
-        .active {
-            background-color: rgba(0, 0, 0, .11);
-        }
-
-        .botnav {
-            background-color: rgba(85, 85, 85, 0);
-            overflow: hidden;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .botnav a {
-            float: left;
-            display: block;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 26px;
-            width: 25%;
-            border-bottom: 3px solid transparent;
-        }
-
-        .botnav a:hover {
-            border-bottom: 3px solid oldlace;
-        }
-
-        .botnav a.active {
-            border-bottom: 3px solid brown;
-        }
-
-        @media screen and (max-width: 500px) {
-            .navbar a {
-                float: none;
-                display: block;
-            }
-        }
-    </style>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="flex flex-col w-full h-full"
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(resources/footballfield.jpg)">
+        <div class="flex h-24 justify-end m-8">
+            <button
+                class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded-lg text-3xl ">
+                Login
+            </button>
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+
+        </div>
+
+
+        <div class="flex h-32 justify-center object-bottom">
+            <span style="font-size: 10vh" class="text-white align-baseline p-4 mb-16 mt-16">SportsBettingWebsite</span>
+        </div>
+        <div class="flex h-32 justify-center object-bottom">
+            <span style="font-size: 4vh" class="text-white align-baseline p-4 mt-24">The premier site for fake NFL
+                betting</span>
+        </div>
+    </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <div class="hero-image">
+    <!-- <div class="hero-image">
         <div class="topnavbar">
             <div class="float-top">
                 <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
@@ -126,7 +69,7 @@
             <a href="#news">News</a>
             <a href="#contact">Contact</a>
         </div>
-    </div>
+    </div> -->
 
 
     <script type="module" src="script.js"></script>
