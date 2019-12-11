@@ -92,7 +92,12 @@
             <p id="gameDate">Date:</p>
           </div>
           <div>
-            <input type="number" name="quantity" min="1" class="betField"> 
+            <input type="number" name="quantity" min="1" class="betField">
+            <select class="selectTeam">
+              <option value="select">Select</option>
+              <option value="home">Home</option>
+              <option value="away">Away</option>
+            </select> 
             <button class="betButton">Bet Button</button>
           </div>
           
@@ -177,6 +182,10 @@
       console.log(gameOdds[0].Home);
       for (let i = 0; i < gameOdds.length; i++) {
         let clone = document.getElementById("gameCard").cloneNode(true);
+
+        let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
+        console.log(id);
+        clone.id = id;
         let names = clone.querySelector("#teamNames");
         names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
         let oddsHtml = clone.querySelector("#gameOdds");
@@ -184,6 +193,23 @@
         let gameDate = clone.querySelector("#gameDate");
         gameDate.innerHTML = gameOdds[i].date;
         clone.style.display = "flex";
+        clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
+        clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
+        clone.querySelector(".betButton").addEventListener( "click", function(){
+            //var card = event.target.parentElement.parentElement;
+            let amount = event.target.previousSibling.previousSibling.value;
+            console.log(event.target.previousSibling.previousSibling.value);
+            let id = event.target.parentElement.parentElement.id;
+            var home;
+            if (clone.querySelector(".selectTeam").value === "home") {
+              home = true;
+            } else {
+              home = false;
+            }
+            buttonEvent(amount, gameOdds[i], home);
+            //viewReplies(id, card);
+        });
+        
         document.getElementById("cardHolder").appendChild(clone);
       }
     }
@@ -213,6 +239,12 @@
 
     }
     printOdds();
+
+    function buttonEvent(amount, gameObj, homeBool) {
+      console.log(amount);
+      console.log(gameObj);
+      console.log(homeBool);
+    }
   </script>
 
   <div class="grid-container">
