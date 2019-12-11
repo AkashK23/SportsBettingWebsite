@@ -221,7 +221,7 @@
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
-                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 5) + " , " + gameOdds[i].odds[1].toString().substring(0, 5);
                 let gameDate = clone.querySelector("#gameDate");
                 gameDate.innerHTML = gameOdds[i].date;
                 clone.style.display = "flex";

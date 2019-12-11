@@ -75,7 +75,15 @@
                 </div>
             </div>
             <div class="flex flex-col h-full bg-white p-6 overflow-auto" id="cardHolder">
-
+                <div id="money" class="flex-col justify-center bg-blue-500 rounded-lg m-4 ">
+                    <div>
+                        <div class="flex flex-col justify-center p-2">
+                            <div class="flex justify-center">
+                                <p id="moneyAmount" class="text-center text-4xl" id="teamNames">You Have: $<p class="text-center text-4xl" id="moneyAmount2"></p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="hidden flex-col justify-center rounded-lg m-4 shadow-xl bg-gray-300" id="gameCard">
                     <div>
                         <div class="flex flex-col justify-center p-2">
@@ -152,10 +160,30 @@
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 console.log("user is signed in ");
+                printMoney(user);
             } else {
                 console.log("no user is signed in ");
             }
         });
+        // let user = firebase.auth().currentUser;
+        // var userMoney;
+        // console.log(firebase.auth().currentUser);
+        async function printMoney(user) {
+            var userMoney;
+            if(user){
+                console.log("here");
+                var docRef = db.collection("users").doc(user.uid);
+                userMoney = await docRef.get().then(function (doc) {
+                    console.log("here");
+                    if(doc.exists) {
+                        return doc.data().money;
+                    }
+                });
+            }
+            console.log(userMoney);
+            document.getElementById("moneyAmount2").innerHTML += userMoney;
+        }
+        
         // const menuIconEl = $('.menu-icon');
         // const sidenavEl = $('.sidenav');
         // const sidenavCloseEl = $('.sidenav__close-icon');
@@ -192,7 +220,7 @@
             console.log('Remaining requests', odds.headers['x-requests-remaining'])
             return odds.data.data;
         };
-        function bet(amount, game, home) {
+        async function bet(amount, game, home) {
             let user = firebase.auth().currentUser;
             if(user) {
             var docRef = db.collection("users").doc(user.uid);
@@ -215,7 +243,7 @@
                 } else {
                 throw "bet cannot be placed since user doesn't exist";
                 }
-
+                document.getElementById("moneyAmount2").innerHTML -= amount;
                 var gameName = (game.Home + "|" + game.Away).replace(/ /g, "_");
                 var index = ""+doc.data().counter;
                 const ID = user.uid + index;
@@ -243,6 +271,7 @@
             }
         }
         async function printOdds() {
+            
             var gameOdds = [];
             let result = await getOdds();
             console.log(result);
@@ -276,7 +305,7 @@
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
-                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 5) + " , " + gameOdds[i].odds[1].toString().substring(0, 5);
                 let gameDate = clone.querySelector("#gameDate");
                 gameDate.innerHTML = gameOdds[i].date;
                 clone.style.display = "flex";

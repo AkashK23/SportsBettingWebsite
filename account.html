@@ -28,9 +28,18 @@
                 <div class="flex h-20 bg-gray-600">
                 </div>
                 <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
+                    <div id="money" class="flex-col justify-center bg-blue-500 rounded-lg m-4 ">
+                        <div>
+                            <div class="flex flex-col justify-center p-2">
+                                <div class="flex justify-center">
+                                    <p id="moneyAmount" class="text-center text-4xl" id="teamNames">You Have: $<p class="text-center text-4xl" id="moneyAmount2"></p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <button id="seeBets" onclick="fillActiveBets()">Click to See Active Bets</button>
                     <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
-                        <div>
+                    <div>
                             <div class="flex flex-col justify-center p-2">
                                 <div class="flex justify-center">
                                     <p class="text-center text-4xl" id="teamNames">Home vs Away</p>
@@ -79,6 +88,8 @@
                             </div>
                         </div>
                     </div>
+
+                    
     
                 </div>
             </div>
@@ -135,11 +146,14 @@
                 console.log(user.uid);
                 let length;
                 let betsCount;
+                let userMoney;
                 if(user){
                     var docRef = db.collection("users").doc(user.uid);
                     length = await docRef.get().then(function (doc) {
                         if(doc.exists) {
                             betsCount = doc.data().numberOfBets;
+                            userMoney = doc.data().money;
+                            //console.log(doc.data());
                             return doc.data().counter;
                         }
                     });
@@ -147,6 +161,7 @@
                     if (betsCount === 0) {
                         document.getElementById("noBets").classList.remove("hidden");
                     }
+                    document.getElementById("moneyAmount2").innerHTML += userMoney;
                     for (let i = 0; i < length; i++) {
                         docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(user.uid+i);
                         docRef.get().then(function (doc) {
@@ -186,7 +201,7 @@
                                 console.log(homeTeam);
                                 names.innerHTML = homeTeam + " vs " + awayTeam;
                                 let oddsHtml = clone.querySelector("#OddsBetOn");
-                                oddsHtml.innerHTML += odds.toString().substring(0, 4) + "\n";
+                                oddsHtml.innerHTML += odds.toString().substring(0, 5) + "\n";
                                 let teamBet = clone.querySelector("#teamBetOn");
                                 if (teamBetOn) {
                                     teamBet.innerHTML += homeTeam;
@@ -195,7 +210,7 @@
                                 }
 
                                 let profitWin = clone.querySelector("#ProfitIfWin");
-                                profitWin.innerHTML += ((moneyBet * odds)-moneyBet).toString().substring(0, 4);
+                                profitWin.innerHTML += ((moneyBet * odds)-moneyBet).toString().substring(0, 5);
                                 let dateGame = clone.querySelector("#gameDate");
                                 dateGame.innerHTML = date;
                                 // let gameDate = clone.querySelector("#gameDate");
