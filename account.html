@@ -64,7 +64,7 @@
                                 </div> -->
                                 <div class="flex">
                                     <button
-                                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+                                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onclick="fillActiveBets()">
                                         Bet on Away
                                     </button>
                                 </div>
@@ -91,7 +91,7 @@
     
     
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script type="module">
+        <script>
             var firebaseConfig = {
                 apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
                 authDomain: "sportsbetting-61b8e.firebaseapp.com",
@@ -112,14 +112,24 @@
                 firebase.auth().signInWithRedirect(provider);
             }
 
-
-            function fillActiveBets() {
-                let user = firebase.auth().currentUser;
+            firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
+                    console.log("user is signed in ");
+                } else {
+                    console.log("no user is signed in ");
+                }
+            });
+
+
+            async function fillActiveBets() {
+                let user = firebase.auth().currentUser;
+                console.log(user.uid);
+                let length;
+                if(user){
                     var docRef = db.collection("users").doc(user.uid);
-                    docRef.get().then(function (doc) {
+                    length = await docRef.get().then(function (doc) {
                         if(doc.exists) {
-                            var length = doc.data().counter;
+                            return doc.data().counter;
                         }
                     });
                     for (let i = 0; i < length; i++) {
@@ -198,7 +208,7 @@
     
             }
             // printOdds();
-    
+            fillActiveBets();
             function buttonEvent(amount, gameObj, homeBool) {
                 console.log(amount);
                 console.log(gameObj);
