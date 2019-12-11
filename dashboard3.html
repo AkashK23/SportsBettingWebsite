@@ -22,7 +22,7 @@
 <body>
 
     <div class="flex bg-gray-200 w-full h-full">
-        <div class="flex flex-col bg-blue-800 h-full w-2/12 ">
+        <div class="flex flex-col bg-blue-800 h-full w-3/12 ">
             <div class="flex flex-col p-4 border-r-8 border-b-8 border-blue-200 m-4">
                 <p class="flex-col font-mono text-lg text-6xl font-extrabold text-white">
                     Sports
@@ -183,6 +183,10 @@
                 let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
                 console.log(id);
                 clone.id = id;
+                let homeClass = gameOdds[i].Home.replace(/ /g, "-");
+                let awayClass = gameOdds[i].Away.replace(/ /g, "-");
+                clone.classList.add(homeClass);
+                clone.classList.add(awayClass);
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
