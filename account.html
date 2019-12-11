@@ -330,11 +330,23 @@
             }
         }
 
-        function deleteBet(id) {
+        async function deleteBet(id) {
             let user = firebase.auth().currentUser;
             if (user) {
                 var docRef = db.collection("users").doc(user.uid);
                 var homeBet;
+                //get the previous bet
+                var previousBet = await db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
+                    if (doc.exists) {
+                        homeBet = doc.data().betOnHome;
+                        if (doc.data().betOnHome) {
+                            return doc.data().homeBet;
+                        } else {
+                            return doc.data().awayBet;
+                        }
+                    }
+                });
+                db.collection("users").doc(user.uid).update({money: firebase.firestore.FieldValue.increment(0.5*parseInt(previousBet))});
                 db.collection("users").doc(user.uid).collection("activeBets").doc(id).delete().then(function () {
                     console.log("Document successfully deleted!");
                 }).catch(function (error) {
