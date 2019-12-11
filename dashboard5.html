@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">
+    <title>
+        Sports Betting</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dashboardstyle2.css">
+</head>
+
+<body>
+
+    <div class="flex bg-gray-200 w-full h-full">
+        <div class="flex bg-blue-200 h-full w-2/12 text-center">
+            1
+        </div>
+        <div class="flex flex-col bg-blue-800 h-full w-5/6">
+            <div class="flex h-20 bg-gray-600">
+            2
+            </div>
+
+
+       <input type="text" id="myInput"   name="q">
+
+       <style>            li { display: inline-block; }
+
+        </style>
+
+       <ul id="myUL">
+ 
+         <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
+         <li><a href="#">Green Bay Packers</a></li>
+ 
+         <li><a href="#">New England Patriots</a></li>
+         <li><a href="#">Cardinals</a></li>
+ 
+         <li><a href="#">Philadelphia Eagles</a></li>
+         <li><a href="#">Chicago Bears</a></li>
+         <li><a href="#">Los Angeles Rams</a></li>
+
+<div class="overflow-x-auto">
+
+         <div class="flex"><button class="flex" onclick="debouncefunction('Arizona-Cardinals')"> Carolina Panthers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Atlanta-Falcons')"> Atlanta Falcons </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Baltimore-Ravens')"> Baltimore Ravens </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Buffalo-Bills')"> Buffalo Bills </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Carolina-Panthers')"> Carolina Panthers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Chicago-Bears')"> Chicago Bears </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Cincinnati-Bengals')"> Cincinnati Bengals </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Dallas-Cowboys')"> Dallas Cowboys </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Denver-Broncos')"> Denver Broncos </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Detroit-Lions')"> Detroit Lions </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Green-Bay-Packers')"> Green Bay Packers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Houston-Texans')"> Houston Texans </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Indianapolis-Colts')"> Indianapolis Colts </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Jacksonville-Jaguars')"> Jacksonville Jaguars </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Kansas-City-Chiefs')"> Kansas City Chiefs </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Los-Angeles-Chargers')"> Los Angeles Chargers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Los-Angeles-Rams')"> Los Angeles Rams </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Miami-Dolphins')"> Miami Dolphins </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Minnesota-Vikings')"> Minnesota Vikings </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('New-England-Patriots')"> New England Patriots </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('New-Orleans-Saints')"> New Orleans Saints </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('New-York-Giants')"> New York Giants </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('New-York-Jets')"> New York Jets </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Oakland-Raiders')"> Oakland Raiders </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Philadelphia-Eagles')"> Philadelphia Eagles </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Pittsburgh-Steelers')"> Pittsburgh Steelers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Saint-Steelers')"> Saint Steelers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('San-Francisco-49ers')"> San Francisco 49ers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Seattle-Seahawks')"> Seattle Seahawks </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Tampa-Bay-Buccaneers')"> Tampa Bay Buccaneers </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Tennessee-Titans')"> Tennessee Titans </button>
+            <div class="flex"><button class="flex" onclick="debouncefunction('Washington-Redskins')"> Washington Redskins </button>
+
+                
+            </div>
+       </ul>
+ 
+
+
+            <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
+
+                <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
+                    <div>
+                        <div class="flex flex-col justify-center p-2">
+                            <div class="flex justify-center">
+                                <p class="text-center text-4xl" id="teamNames">Home vs Away</p>
+                            </div>
+                            <div class="flex justify-center">
+                                <p class="text-center text-2xl" id="gameOdds">Odds:</p>
+                            </div>
+                            <div class="flex justify-center">
+                                <p class="text-center text-2xl" id="gameDate">Date:</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-around p-2">
+                            <div class="flex">
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full homeBet">
+                                    Bet on Home
+                                </button>
+                            </div>
+                            <div class="flex">
+                                <input
+                                    class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    type="number" name="quantity" min="1" id="betField" placeholder="Bet Amount">
+                            </div>
+                            <div class="flex">
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full awayBet">
+                                    Bet on Away
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module">
+        // const menuIconEl = $('.menu-icon');
+        // const sidenavEl = $('.sidenav');
+        // const sidenavCloseEl = $('.sidenav__close-icon');
+
+        // // Add and remove provided class names
+        // function toggleClassName(el, className) {
+        //   if (el.hasClass(className)) {
+        //     el.removeClass(className);
+        //   } else {
+        //     el.addClass(className);
+        //   }
+        // }
+
+        // // Open the side nav on click
+        // menuIconEl.on('click', function() {
+        //   toggleClassName(sidenavEl, 'active');
+        // });
+
+        // // Close the side nav on click
+        // sidenavCloseEl.on('click', function() {
+        //   toggleClassName(sidenavEl, 'active');
+        // });
+        const api_key = '27fbb22313b7d3b8ddaee6b970a9c8e6'
+        let sport_key = "americanfootball_nfl"
+        export async function getOdds(id) {
+            const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
+                params: {
+                    api_key: api_key,
+                    sport: sport_key,
+                    region: 'us', // uk | us | au
+                    mkt: 'h2h' // h2h | spreads | totals
+                }
+            });
+            console.log('Remaining requests', odds.headers['x-requests-remaining'])
+            return odds.data.data;
+        };
+        async function printOdds() {
+            var gameOdds = [];
+            let result = await getOdds();
+            console.log(result);
+            //let result = result.data;
+            for (let i = 0; i < result.length; i++) {
+                var odds = {};
+                console.log(result[0])
+                odds["Home"] = result[i].home_team;
+                if (odds["Home"] === result[i].teams[0]) {
+                    odds["odds"] = avgOdds(result[i].sites, 0);
+                    odds["Away"] = result[i].teams[1];
+                } else {
+                    odds["odds"] = avgOdds(result[i].sites, 1);
+                    odds["Away"] = result[i].teams[0];
+                }
+                odds["date"] = getDate(result[i].commence_time);
+
+                gameOdds.push(odds);
+            }
+            console.log(gameOdds[0].Home);
+            for (let i = 0; i < gameOdds.length; i++) {
+                let clone = document.getElementById("gameCard").cloneNode(true);
+
+                let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
+                console.log(id);
+                clone.id = id;
+                let names = clone.querySelector("#teamNames");
+                names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
+                let oddsHtml = clone.querySelector("#gameOdds");
+                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+                let gameDate = clone.querySelector("#gameDate");
+                gameDate.innerHTML = gameOdds[i].date;
+                clone.style.display = "flex";
+                // clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
+                // clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
+                clone.querySelector(".homeBet").addEventListener("click", function () {
+                    //var card = event.target.parentElement.parentElement;
+                    //console.log(event.target.parentElement.parentElement.childNodes);
+                    //let parent = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    console.log(amount);
+                    //let id = event.target.parentElement.parentElement.id;
+                    //var home;
+
+                    buttonEvent(amount, gameOdds[i], true);
+                    //viewReplies(id, card);
+                });
+
+                clone.querySelector(".awayBet").addEventListener("click", function () {
+                    //var card = event.target.parentElement.parentElement;
+                    // let amount = event.target.previousSibling.previousSibling.value;
+                    // console.log(event.target.previousSibling.previousSibling.value);
+                    // let id = event.target.parentElement.parentElement.id;
+                    // var home;
+                    let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    console.log(amount);
+
+                    buttonEvent(amount, gameOdds[i], false);
+                    //viewReplies(id, card);
+                });
+
+                document.getElementById("cardHolder").appendChild(clone);
+            }
+        }
+        function getDate(UNIX_timestamp) {
+            var a = new Date(UNIX_timestamp * 1000);
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var year = a.getFullYear();
+            var month = months[a.getMonth()];
+            var date = a.getDate();
+            var hour = a.getHours();
+            var min = a.getMinutes();
+            var sec = a.getSeconds();
+            var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+            return time;
+        }
+        function avgOdds(sites, home) {
+            let firstOdd = 0;
+            let secondOdd = 0;
+            for (let i = 0; i < sites.length; i++) {
+                firstOdd += sites[i].odds.h2h[0];
+                secondOdd += sites[i].odds.h2h[1];
+            }
+            if (home === 0) {
+                return [firstOdd / sites.length, secondOdd / sites.length];
+            }
+            return [secondOdd / sites.length, firstOdd / sites.length];
+
+        }
+        printOdds();
+
+        function buttonEvent(amount, gameObj, homeBool) {
+            console.log(amount);
+            console.log(gameObj);
+            console.log(homeBool);
+        }
+    </script>
+    <!-- <script type="module" src="script.js"></script> -->
+
+<!-- debounce script -->
+
+    <script> 
+
+
+
+
+            var button = document.getElementById("myInput"); 
+            const debounce = (func, delay) => {
+                let debounceTimer 
+                return function() { 
+
+                    const context = this
+                    const args = arguments 
+                        clearTimeout(debounceTimer) 
+                            debounceTimer 
+                        = setTimeout(() => func.apply(context, args), delay) 
+                } 
+            }  
+            button.addEventListener('click', debounce(function() 
+            {
+                      var input, filter, ul, li, a, i, txtValue;
+                      input = document.getElementById("myInput");
+                      filter = input.value.toUpperCase();
+                      ul = document.getElementById("myUL");
+                      li = ul.getElementsByTagName("li");
+                      for (i = 0; i < li.length; i++) {
+                        a = li[i].getElementsByTagName("a")[0];
+                        txtValue = a.textContent || a.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                          li[i].style.display = "";
+                        } else {
+                          li[i].style.display = "none";
+                        }
+                      }
+                    }
+                                    
+                                    , 3000)); 
+                               
+                    
+
+
+
+
+filterSelection("all")
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c == "all") c = "";
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  for (i = 0; i < x.length; i++) {
+    w3RemoveClass(x[i], "show");
+    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+  }
+}
+
+// Show filtered elements
+function w3AddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {
+      element.className += " " + arr2[i];
+    }
+  }
+}
+
+// Hide elements that are not selected
+function w3RemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+// Add active class to the current control button (highlight it)
+var btnContainer = document.getElementById("myBtnContainer");
+var btns = btnContainer.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+           
+                    
+            </script> 
+</body>
+
+
+
+</html>
