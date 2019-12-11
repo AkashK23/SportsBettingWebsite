@@ -77,12 +77,77 @@
         </div>
     
     
+        <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+        <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+        <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+        <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
     
     
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script type="module">
+            var firebaseConfig = {
+                apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
+                authDomain: "sportsbetting-61b8e.firebaseapp.com",
+                databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
+                projectId: "sportsbetting-61b8e",
+                storageBucket: "sportsbetting-61b8e.appspot.com",
+                messagingSenderId: "688706831427",
+                appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
+                measurementId: "G-QZQS0PGRJD"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            var db = firebase.firestore();
+
+            var provider = new firebase.auth.GoogleAuthProvider();
+            function sign_in() {
+                firebase.auth().signInWithRedirect(provider);
+            }
+
+
             function fillActiveBets() {
-                // for (let i = 0; i < *betsOfUserLength*; i++) {
+                let user = firebase.auth().currentUser;
+                if (user) {
+                    var docRef = db.collection("users").doc(user.uid);
+                    docRef.get().then(function (doc) {
+                        if(doc.exists) {
+                            var length = doc.data().counter;
+                        }
+                    });
+                    for (let i = 0; i < length; i++) {
+                        docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(user.uid+i);
+                        docRef.get().then(function (doc) {
+                            if(doc.exists) {
+                                var id = doc.data().id;
+                                var gameName = doc.data().game;
+                                var date = doc.data().date;
+                                var teamBetOn = doc.data().betOnHome;
+                                var moneyBet = 0;
+                                var odds = 0;
+                                if(teamBetOn) {
+                                    moneyBet = doc.data().homeBet;
+                                    odds = doc.data().homeOdds;
+                                } else {
+                                    moneyBet = doc.data().awayBet;
+                                    odds = doc.data().awayOdds;
+                                }
+                                console.log(id);
+                                console.log(gameName);
+                                console.log(date);
+                                console.log(teamBetOn);
+                                console.log(moneyBet);
+                                console.log(odds);
+                            }
+                        });
+
                 //     // get user id (username + count)
                 //     // get money bet
                 //     // get teams playing in game
@@ -104,7 +169,8 @@
                     
 
                 //     document.getElementById("cardHolder").appendChild(clone);
-                // }
+                    }
+                }
             }
             function getDate(UNIX_timestamp) {
                 var a = new Date(UNIX_timestamp * 1000);
@@ -131,7 +197,7 @@
                 return [secondOdd / sites.length, firstOdd / sites.length];
     
             }
-            printOdds();
+            // printOdds();
     
             function buttonEvent(amount, gameObj, homeBool) {
                 console.log(amount);

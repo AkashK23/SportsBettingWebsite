@@ -120,19 +120,19 @@ function bet(amount, game, home) {
           const ID = user.uid + index;
           docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
           if(!docRef.get().exists) {
-            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
           }
           if(home) {
             db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
           } else {
-            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount });
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount , betOnHome: false});
           }
 
-          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
           if(home) {
             db.collection("bets").doc(ID).update({ homeBet: amount });
           } else {
-            db.collection("bets").doc(ID).update({ awayBet: amount });
+            db.collection("bets").doc(ID).update({ awayBet: amount, betOnHome: false });
           }
 
         })
@@ -149,14 +149,16 @@ function update(amount, id) {
       var previousBet;
       db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
         if (doc.exists) {
-          previousBet = doc.data();
+          if(doc.data().betOnHome) {
+          previousBet = doc.data().homeBet;
+          }
         }
       });
       // .collection("bets").doc("active bets");
       docRef.get().then(function (doc) {
         var filename = 0;
         if (doc.exists) {
-          finalAmount = doc.data().money - amount;
+          finalAmount = doc.data().money - amount + previousBet;
           if(finalAmount >= 0) {
             db.collection("users").doc(user.uid).update({ money: finalAmount });
           } else {
@@ -171,19 +173,19 @@ function update(amount, id) {
           const ID = user.uid + index;
           docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
           if(!docRef.get().exists) {
-            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
           }
           if(home) {
             db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
           } else {
-            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount });
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount , betOnHome: false});
           }
 
-          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
           if(home) {
             db.collection("bets").doc(ID).update({ homeBet: amount });
           } else {
-            db.collection("bets").doc(ID).update({ awayBet: amount });
+            db.collection("bets").doc(ID).update({ awayBet: amount, betOnHome: false });
           }
 
         })
@@ -221,7 +223,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 var lol;
-const api_key = '7cdcedbd24cadaaa02107e695738d034'
+const api_key = '27fbb22313b7d3b8ddaee6b970a9c8e6'
     let sport_key = "americanfootball_nfl"
     async function getOdds(id) {
       const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
