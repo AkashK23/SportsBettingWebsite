@@ -47,18 +47,18 @@
                         <div class="flex justify-around p-2">
                             <div class="flex">
                                 <button
-                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full homeBet">
                                     Bet on Home
                                 </button>
                             </div>
                             <div class="flex">
                                 <input
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     type="number" name="quantity" min="1" id="betField" placeholder="Bet Amount">
                             </div>
                             <div class="flex">
                                 <button
-                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full awayBet">
                                     Bet on Away
                                 </button>
                             </div>
@@ -97,8 +97,6 @@
         // sidenavCloseEl.on('click', function() {
         //   toggleClassName(sidenavEl, 'active');
         // });
-
-
         const api_key = '7cdcedbd24cadaaa02107e695738d034'
         let sport_key = "americanfootball_nfl"
         export async function getOdds(id) {
@@ -136,6 +134,10 @@
             console.log(gameOdds[0].Home);
             for (let i = 0; i < gameOdds.length; i++) {
                 let clone = document.getElementById("gameCard").cloneNode(true);
+
+                let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
+                console.log(id);
+                clone.id = id;
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
@@ -143,6 +145,33 @@
                 let gameDate = clone.querySelector("#gameDate");
                 gameDate.innerHTML = gameOdds[i].date;
                 clone.style.display = "flex";
+                // clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
+                // clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
+                clone.querySelector(".homeBet").addEventListener("click", function () {
+                    //var card = event.target.parentElement.parentElement;
+                    //console.log(event.target.parentElement.parentElement.childNodes);
+                    //let parent = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    console.log(amount);
+                    //let id = event.target.parentElement.parentElement.id;
+                    //var home;
+
+                    buttonEvent(amount, gameOdds[i], true);
+                    //viewReplies(id, card);
+                });
+
+                clone.querySelector(".awayBet").addEventListener("click", function () {
+                    //var card = event.target.parentElement.parentElement;
+                    // let amount = event.target.previousSibling.previousSibling.value;
+                    // console.log(event.target.previousSibling.previousSibling.value);
+                    // let id = event.target.parentElement.parentElement.id;
+                    // var home;
+                    let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
+                    console.log(amount);
+
+                    buttonEvent(amount, gameOdds[i], false);
+                    //viewReplies(id, card);
+                });
 
                 document.getElementById("cardHolder").appendChild(clone);
             }
@@ -174,107 +203,11 @@
         }
         printOdds();
 
-
-        // const api_key = 'b1eac66fa719b3b2658e9ef93cbb43b6'
-        // let sport_key = "americanfootball_nfl"
-        // export async function getOdds(id) {
-        //     const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
-        //         params: {
-        //             api_key: api_key,
-        //             sport: sport_key,
-        //             region: 'us', // uk | us | au
-        //             mkt: 'h2h' // h2h | spreads | totals
-        //         }
-        //     });
-        //     console.log('Remaining requests', odds.headers['x-requests-remaining'])
-        //     return odds.data.data;
-        // };
-        // async function printOdds() {
-        //     var gameOdds = [];
-        //     let result = await getOdds();
-        //     console.log(result);
-        //     //let result = result.data;
-        //     for (let i = 0; i < result.length; i++) {
-        //         var odds = {};
-        //         console.log(result[0])
-        //         odds["Home"] = result[i].home_team;
-        //         if (odds["Home"] === result[i].teams[0]) {
-        //             odds["odds"] = avgOdds(result[i].sites, 0);
-        //             odds["Away"] = result[i].teams[1];
-        //         } else {
-        //             odds["odds"] = avgOdds(result[i].sites, 1);
-        //             odds["Away"] = result[i].teams[0];
-        //         }
-        //         odds["date"] = getDate(result[i].commence_time);
-
-        //         gameOdds.push(odds);
-        //     }
-        //     console.log(gameOdds[0].Home);
-        //     for (let i = 0; i < gameOdds.length; i++) {
-        //         let clone = document.getElementById("gameCard").cloneNode(true);
-
-        //         let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
-        //         console.log(id);
-        //         clone.id = id;
-        //         let names = clone.querySelector("#teamNames");
-        //         names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
-        //         let oddsHtml = clone.querySelector("#gameOdds");
-        //         oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
-        //         let gameDate = clone.querySelector("#gameDate");
-        //         gameDate.innerHTML = gameOdds[i].date;
-        //         clone.style.display = "flex";
-        //         clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
-        //         clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
-        //         clone.querySelector(".betButton").addEventListener("click", function () {
-        //             //var card = event.target.parentElement.parentElement;
-        //             let amount = event.target.previousSibling.previousSibling.value;
-        //             console.log(event.target.previousSibling.previousSibling.value);
-        //             let id = event.target.parentElement.parentElement.id;
-        //             var home;
-        //             if (clone.querySelector(".selectTeam").value === "home") {
-        //                 home = true;
-        //             } else {
-        //                 home = false;
-        //             }
-        //             buttonEvent(amount, gameOdds[i], home);
-        //             //viewReplies(id, card);
-        //         });
-
-        //         document.getElementById("cardHolder").appendChild(clone);
-        //     }
-        // }
-        // function getDate(UNIX_timestamp) {
-        //     var a = new Date(UNIX_timestamp * 1000);
-        //     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        //     var year = a.getFullYear();
-        //     var month = months[a.getMonth()];
-        //     var date = a.getDate();
-        //     var hour = a.getHours();
-        //     var min = a.getMinutes();
-        //     var sec = a.getSeconds();
-        //     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-        //     return time;
-        // }
-        // function avgOdds(sites, home) {
-        //     let firstOdd = 0;
-        //     let secondOdd = 0;
-        //     for (let i = 0; i < sites.length; i++) {
-        //         firstOdd += sites[i].odds.h2h[0];
-        //         secondOdd += sites[i].odds.h2h[1];
-        //     }
-        //     if (home === 0) {
-        //         return [firstOdd / sites.length, secondOdd / sites.length];
-        //     }
-        //     return [secondOdd / sites.length, firstOdd / sites.length];
-
-        // }
-        // printOdds();
-
-        // function buttonEvent(amount, gameObj, homeBool) {
-        //     console.log(amount);
-        //     console.log(gameObj);
-        //     console.log(homeBool);
-        // }
+        function buttonEvent(amount, gameObj, homeBool) {
+            console.log(amount);
+            console.log(gameObj);
+            console.log(homeBool);
+        }
     </script>
     <!-- <script type="module" src="script.js"></script> -->
 </body>
