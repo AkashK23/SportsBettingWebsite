@@ -82,7 +82,14 @@
                                 <p class="text-center text-2xl" id="OddsBetOn">Odds: </p>
                             </div>
                             <div class="flex justify-center">
-                                <p class="text-center text-2xl" id="ProfitIfWin">Profit(if win): $</p>
+                                    <p class="text-center text-2xl" id="amountBet2">Amount Bet: $
+                                            <p class="text-center text-2xl" id="amountBet"></p>
+                                    </p>
+                            </div>
+                            <div class="flex justify-center">
+                                <p class="text-center text-2xl" id="ProfitIfWin2">Profit(if win): $
+                                        <p class="text-center text-2xl" id="ProfitIfWin"></p>
+                                </p>
                             </div>
                             <div class="flex justify-center">
                                 <p class="text-center text-2xl" id="gameDate">Date:</p>
@@ -193,11 +200,15 @@
                 if (betsCount === 0) {
                     document.getElementById("noBets").classList.remove("hidden");
                 }
-                document.getElementById("moneyAmount2").innerHTML += userMoney;
-                for (let i = 0; i < length; i++) {
+                document.getElementById("moneyAmount2").innerHTML = userMoney;
+                console.log(length);
+                console.log(betsCount)
+                for (let i = 0; i < length*10; i++) {
                     docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(user.uid + i);
                     docRef.get().then(function (doc) {
+                        console.log(doc.exists);
                         if (doc.exists) {
+                            
                             var id = doc.data().id;
                             var gameName = doc.data().game;
                             var date = doc.data().date;
@@ -242,7 +253,9 @@
                             }
 
                             let profitWin = clone.querySelector("#ProfitIfWin");
-                            profitWin.innerHTML += ((moneyBet * odds) - moneyBet).toString().substring(0, 5);
+                            profitWin.innerHTML = ((moneyBet * odds) - moneyBet).toString().substring(0, 5);
+                            let amountBet = clone.querySelector("#amountBet");
+                            amountBet.innerHTML = moneyBet;
                             let dateGame = clone.querySelector("#gameDate");
                             dateGame.innerHTML = date;
                             // let gameDate = clone.querySelector("#gameDate");
@@ -250,20 +263,32 @@
                             // clone.style.display = "flex";
                             // // clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
                             // // clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
-                            clone.querySelector(".changeBet").addEventListener("click", function () {
+                            if (typeof change !== "undefined") {
+                                clone.querySelector(".changeBet").removeEventListener("click", change);
+                            }
+                            
+                            clone.querySelector(".changeBet").addEventListener("click", async function change() {
                                 let amount = event.target.parentElement.parentElement.querySelector(".changeBetAmount").value;
                                 console.log(amount);
                                 if (!isNaN(amount) && amount > 0 && amount !== '') {
                                     // if (amount > 0.5 * moneyBet) {
                                     //     amount = 0.5 * moneyBet;
                                     // }
-                                    changeBet(amount, id);
+                                    await changeBet(amount, id);
+                                    clone.querySelector("#ProfitIfWin").innerHTML = ((amount * odds) - moneyBet).toString().substring(0, 5);
+                                    clone.querySelector("#amountBet").innerHTML = amount;
+                                    //removeBets();
                                 }
 
                             });
-
-                            clone.querySelector(".deleteBet").addEventListener("click", function () {
-                                deleteBet(id);
+                            if (typeof dlt !== "undefined") {
+                                clone.querySelector(".deleteBet").removeEventListener("click", dlt);
+                            }
+                            
+                            clone.querySelector(".deleteBet").addEventListener("click", async function dlt() {
+                                await deleteBet(id);
+                                clone.remove();
+                                //removeBets();
                             });
 
                             document.getElementById("cardHolder").appendChild(clone);
@@ -273,6 +298,14 @@
                 }
 
             }
+        }
+        function removeBets() {
+            console.log(document.getElementById("cardHolder").children.length);
+            for (let i = 4; i < document.getElementById("cardHolder").children.length;) {
+                console.log(document.getElementById("cardHolder").children[i]);
+                document.getElementById("cardHolder").children[i].remove();
+            }
+            fillActiveBets();
         }
         async function changeBet(amount, id) {
             let user = firebase.auth().currentUser;
@@ -297,14 +330,17 @@
                     if (doc.exists) {
                         finalAmount = parseInt(doc.data().money) - parseInt(amount) + parseInt(previousBet);
                         if (finalAmount >= 0) {
-                            if (amount > 2 * previousBet) {
+                            if (parseInt(amount) > 2 * parseInt(previousBet)) {
                                 throw "amount is more than twice the previous bet";
-                            } else if (amount <= previousBet) {
+                            } else if (parseInt(amount) <= parseInt(previousBet)) {
+                                console.log(amount);
+                                console.log(previousBet);
                                 throw "amount is less than or equal to the previous bet";
                             }
                             console.log(amount);
                             db.collection("users").doc(user.uid).update({ money: finalAmount });
                             console.log(finalAmount);
+                            document.getElementById("moneyAmount2").innerHTML = finalAmount;
                             if (homeBet) {
                                 db.collection("users").doc(user.uid).collection("activeBets").doc(id).update({ homeBet: amount });
                             } else {
@@ -328,6 +364,7 @@
                         alert(error);
                     });
             }
+            //removeBets();
         }
 
         async function deleteBet(id) {
@@ -347,6 +384,9 @@
                     }
                 });
                 db.collection("users").doc(user.uid).update({money: firebase.firestore.FieldValue.increment(0.5*parseInt(previousBet))});
+                document.getElementById("moneyAmount2").innerHTML = parseInt(document.getElementById("moneyAmount2").innerHTML) + 0.5*parseInt(previousBet);
+                console.log(parseInt(document.getElementById("moneyAmount2").innerHTML) + 0.5*parseInt(previousBet));
+                console.log(document.getElementById("moneyAmount2").innerHTML);
                 db.collection("users").doc(user.uid).collection("activeBets").doc(id).delete().then(function () {
                     console.log("Document successfully deleted!");
                 }).catch(function (error) {
@@ -359,6 +399,7 @@
                 });
                 db.collection("users").doc(user.uid).update({ numberOfBets: firebase.firestore.FieldValue.increment(-1) });
             }
+            //removeBets();
         }
         function getDate(UNIX_timestamp) {
             var a = new Date(UNIX_timestamp * 1000);
