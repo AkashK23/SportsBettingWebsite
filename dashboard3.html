@@ -162,6 +162,19 @@
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 console.log("user is signed in ");
+                var user = firebase.auth().currentUser;
+                var docRef = db.collection("users").doc(user.uid);
+                docRef.get().then(function (doc) {
+                    var filename = 0;
+                    if (doc.exists) {
+                        console.log(doc.data().count);
+                    } else {
+                        db.collection("users").doc(user.uid).set({ money: 1000 });
+                        db.collection("users").doc(user.uid).set({ numberOfBets: 0 });
+                        db.collection("users").doc(user.uid).set({ counter: 0 });
+                    }
+                });
+
                 printMoney(user);
             } else {
                 console.log("no user is signed in ");
