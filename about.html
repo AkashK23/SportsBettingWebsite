@@ -41,12 +41,12 @@
                         Home
                     </a>
                 </div>
-                <div class="flex m-2 mt-2 border-blue-200 border-r-8">
+                <div class="flex m-2 mt-2">
                     <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="account.html">
                         Account
                     </a>
                 </div>
-                <div class="flex m-2 mt-2">
+                <div class="flex m-2 mt-2 border-blue-200 border-r-8">
                     <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="about.html">
                         About
                     </a>
@@ -57,71 +57,6 @@
             <div class="flex h-20 bg-gray-600">
             </div>
             <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
-                <div id="money" class="flex-col justify-center bg-blue-500 rounded-lg m-4 ">
-                    <div>
-                        <div class="flex flex-col justify-center p-2">
-                            <div class="flex justify-center">
-                                <p id="moneyAmount" class="text-center text-4xl" id="teamNames">You Have: $<p
-                                        class="text-center text-4xl" id="moneyAmount2"></p>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button id="seeBets" onclick="fillActiveBets()">Click to See Active Bets</button>
-                <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
-                    <div>
-                        <div class="flex flex-col justify-center p-2">
-                            <div class="flex justify-center">
-                                <p class="text-center text-4xl" id="teamNames">Home vs Away</p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-center text-2xl" id="teamBetOn">Team Bet: </p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-center text-2xl" id="OddsBetOn">Odds: </p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-center text-2xl" id="ProfitIfWin">Profit(if win): $</p>
-                            </div>
-                            <div class="flex justify-center">
-                                <p class="text-center text-2xl" id="gameDate">Date:</p>
-                            </div>
-                        </div>
-                        <div class="flex justify-around p-2">
-                            <div class="flex">
-                                <input
-                                    class="changeBetAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    type="number" name="quantity" min="1" id="betField" placeholder="Change bet value">
-                                <button
-                                    class="changeBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
-                                    Change Bet
-                                </button>
-
-                            </div>
-                            <div class="flex">
-                                <button
-                                    class="deleteBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
-                                    type="submit">
-                                    Delete Bet
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div id="noBets" class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 ">
-                    <div>
-                        <div class="flex flex-col justify-center p-2">
-                            <div class="flex justify-center">
-                                <p class="text-center text-4xl" id="teamNames">You Have Not Made Any Bets</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
 
             </div>
         </div>
