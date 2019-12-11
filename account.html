@@ -52,7 +52,7 @@
                                 <div class="flex">
                                     <input
                                         class="changeBetAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        type="number" name="quantity" min="1" id="betField" placeholder="Add to previous bet">
+                                        type="number" name="quantity" min="1" id="betField" placeholder="Change bet value">
                                     <button
                                         class="changeBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
                                         Change Bet
@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="flex">
                                     <button
-                                        class="deleteBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onclick="fillActiveBets()">
+                                        class="deleteBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" type = "submit">
                                         Delete Bet
                                     </button>
                                 </div>
@@ -134,15 +134,17 @@
                 let user = firebase.auth().currentUser;
                 console.log(user.uid);
                 let length;
+                let betsCount;
                 if(user){
                     var docRef = db.collection("users").doc(user.uid);
                     length = await docRef.get().then(function (doc) {
                         if(doc.exists) {
+                            betsCount = doc.data().numberOfBets;
                             return doc.data().counter;
                         }
                     });
-                    console.log(length);
-                    if (length === 0) {
+                    console.log(betsCount);
+                    if (betsCount === 0) {
                         document.getElementById("noBets").classList.remove("hidden");
                     }
                     for (let i = 0; i < length; i++) {
@@ -193,7 +195,7 @@
                                 }
 
                                 let profitWin = clone.querySelector("#ProfitIfWin");
-                                profitWin.innerHTML += (moneyBet * odds).toString().substring(0, 4);
+                                profitWin.innerHTML += ((moneyBet * odds)-moneyBet).toString().substring(0, 4);
                                 let dateGame = clone.querySelector("#gameDate");
                                 dateGame.innerHTML = date;
                                 // let gameDate = clone.querySelector("#gameDate");
@@ -204,10 +206,10 @@
                                 clone.querySelector(".changeBet").addEventListener("click", function () {
                                     let amount = event.target.parentElement.parentElement.querySelector(".changeBetAmount").value;
                                     console.log(amount);
-                                    if (!isNan(amount) && amount > 0 && amount !== '') {
-                                        if (amount > 0.5 * moneyBet) {
-                                            amount = 0.5 * moneyBet;
-                                        }
+                                    if (!isNaN(amount) && amount > 0 && amount !== '') {
+                                        // if (amount > 0.5 * moneyBet) {
+                                        //     amount = 0.5 * moneyBet;
+                                        // }
                                         changeBet(amount, id);
                                     }
                                     
@@ -225,12 +227,79 @@
 
                 }
             }
-            function changeBet() {
+            async function changeBet(amount, id) {
+                let user = firebase.auth().currentUser;
+                if(user) {
+                var docRef = db.collection("users").doc(user.uid);
+                var homeBet;
+                var previousBet = await db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
+                    if (doc.exists) {
+                    homeBet = doc.data().betOnHome;
+                        if(doc.data().betOnHome) {
+                            return doc.data().homeBet;
+                        } else {
+                            return doc.data().awayBet;
+                        }
+                    }
+                });
+                // .collection("bets").doc("active bets");
+                docRef.get().then(function (doc) {
+                    var filename = 0;
+                    console.log(amount);
+                    console.log(previousBet);
+                    if (doc.exists) {
+                    finalAmount = parseInt(doc.data().money) - parseInt(amount) + parseInt(previousBet);
+                    if(finalAmount >= 0) {
+                        if(amount > 2*previousBet) {
+                        throw "amount is more than twice the previous bet";
+                        } else if(amount <= previousBet) {
+                        throw "amount is less than or equal to the previous bet";
+                        }
+                        console.log(amount);
+                        db.collection("users").doc(user.uid).update({ money: finalAmount });
+                        console.log(finalAmount);
+                        if(homeBet) {
+                        db.collection("users").doc(user.uid).collection("activeBets").doc(id).update({ homeBet: amount });
+                        } else {
+                        db.collection("users").doc(user.uid).collection("activeBets").doc(id).update({ awayBet: amount });
+                        }
+                    } else {
+                        throw "The amount in your account is not sufficient for this transaction";
+                    }
+                    } else {
+                    throw "bet cannot be placed since user doesn't exist";
+                    }
 
+                    if(homeBet) {
+                        db.collection("bets").doc(id).update({ homeBet: amount });
+                    } else {
+                        db.collection("bets").doc(id).update({ awayBet: amount});
+                    }
+
+                    })
+                    .catch(function(error) {
+                        alert(error);
+                    });
+                }
             }
 
-            function deleteBet() {
-
+            function deleteBet(id) {
+                let user = firebase.auth().currentUser;
+                    if(user) {
+                        var docRef = db.collection("users").doc(user.uid);
+                        var homeBet;
+                        db.collection("users").doc(user.uid).collection("activeBets").doc(id).delete().then(function() {
+                            console.log("Document successfully deleted!");
+                        }).catch(function(error) {
+                            console.error("Error removing document: ", error);
+                        });
+                        db.collection("bets").doc(id).delete().then(function() {
+                            console.log("Document successfully deleted!");
+                        }).catch(function(error) {
+                            console.error("Error removing document: ", error);
+                        });
+                        db.collection("users").doc(user.uid).update({numberOfBets: firebase.firestore.FieldValue.increment(-1)});
+                    }
             }
             function getDate(UNIX_timestamp) {
                 var a = new Date(UNIX_timestamp * 1000);

@@ -99,9 +99,9 @@
     <div class="hero-image">
         <div class="topnavbar">
             <div class="float-top">
-                <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+                <!-- <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home </a> -->
                 <a href="#" onclick="sign_in()"><i class="fa fa-fw fa-user"></i> Login</a>
-                <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+                <a href="publicBest.html"> View Games</a>
             </div>
         </div>
         <div class="hero-text">
@@ -115,59 +115,60 @@
         </div>
     </div>
 
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+<script type="module" src="script.js"></script>
+<!-- <script src="script.js"></script> -->
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 
-    <script type="module" src="script.js"></script>
-    <!-- <script src="script.js"></script> -->
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
 
-    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<!-- <script src="/__/firebase/init.js"></script> -->
 
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
+        authDomain: "sportsbetting-61b8e.firebaseapp.com",
+        databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
+        projectId: "sportsbetting-61b8e",
+        storageBucket: "sportsbetting-61b8e.appspot.com",
+        messagingSenderId: "688706831427",
+        appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
+        measurementId: "G-QZQS0PGRJD"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var provider = new firebase.auth.GoogleAuthProvider();
+    function sign_in() {
+        firebase.auth().signInWithRedirect(provider);
+    }
 
-    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
-
-    <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
-    <!-- Initialize Firebase -->
-    <!-- <script src="/__/firebase/init.js"></script> -->
-
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
-            authDomain: "sportsbetting-61b8e.firebaseapp.com",
-            databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
-            projectId: "sportsbetting-61b8e",
-            storageBucket: "sportsbetting-61b8e.appspot.com",
-            messagingSenderId: "688706831427",
-            appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
-            measurementId: "G-QZQS0PGRJD"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        var db = firebase.firestore();
-        var provider = new firebase.auth.GoogleAuthProvider();
-        function sign_in() {
-            firebase.auth().signInWithRedirect(provider);
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            var user = firebase.auth().currentUser;
+            var docRef = db.collection("users").doc(user.uid);
+            docRef.get().then(function (doc) {
+                var filename = 0;
+                if (doc.exists) {
+                    console.log(doc.data().count);
+                } else {
+                    db.collection("users").doc(user.uid).set({ money: 1000 });
+                }
+            });
+            window.location.href = "dashboard3.html";
+        } else {
         }
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                var user = firebase.auth().currentUser;
-                var docRef = db.collection("users").doc(user.uid);
-                docRef.get().then(function (doc) {
-                    var filename = 0;
-                    if (doc.exists) {
-                        console.log(doc.data().count);
-                    } else {
-                        db.collection("users").doc(user.uid).set({ money: 1000 });
-                    }
-                });
-                window.location.href = "dashboard3.html";
-            } else {
-            }
-        });
-    </script>
+    });
+</script>
+
+
+
 </body>
 
 </html>

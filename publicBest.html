@@ -37,13 +37,13 @@
 
             <div class="flex flex-col p-4">
                 <div class="flex m-2 border-blue-200 border-r-8">
-                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter mt-2" href="dashboard3.html">
-                        Home
+                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter mt-2" href="publicBest.html">
+                        Games
                     </a>
                 </div>
                 <div class="flex m-2 mt-2">
-                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="account.html">
-                        Account
+                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="index.html">
+                        Home
                     </a>
                 </div>
                 <div class="flex m-2 mt-2">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="flex justify-end w-5/6">
                     <button
-                        class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded text-3xl ">
+                        class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded text-3xl " onclick="sign_in()">
                         Login
                     </button>
                 </div>
@@ -100,7 +100,57 @@
 
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="module">
+
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+<script type="module" src="script.js"></script>
+<!-- <script src="script.js"></script> -->
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<!-- <script src="/__/firebase/init.js"></script> -->
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
+        authDomain: "sportsbetting-61b8e.firebaseapp.com",
+        databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
+        projectId: "sportsbetting-61b8e",
+        storageBucket: "sportsbetting-61b8e.appspot.com",
+        messagingSenderId: "688706831427",
+        appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
+        measurementId: "G-QZQS0PGRJD"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var provider = new firebase.auth.GoogleAuthProvider();
+    function sign_in() {
+        firebase.auth().signInWithRedirect(provider);
+    }
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            var user = firebase.auth().currentUser;
+            var docRef = db.collection("users").doc(user.uid);
+            docRef.get().then(function (doc) {
+                var filename = 0;
+                if (doc.exists) {
+                    console.log(doc.data().count);
+                } else {
+                    db.collection("users").doc(user.uid).set({ money: 1000 });
+                }
+            });
+            window.location.href = "dashboard3.html";
+        } else {
+        }
+    });
         // const menuIconEl = $('.menu-icon');
         // const sidenavEl = $('.sidenav');
         // const sidenavCloseEl = $('.sidenav__close-icon');
@@ -125,7 +175,7 @@
         // });
         const api_key = '27fbb22313b7d3b8ddaee6b970a9c8e6'
         let sport_key = "americanfootball_nfl"
-        export async function getOdds(id) {
+         async function getOdds(id) {
             const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
                 params: {
                     api_key: api_key,

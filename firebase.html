@@ -24,7 +24,7 @@
     </div>
 
     <div id = 'update'>
-      <button onclick="bet(100, lol[0] ,true)" class="button">
+      <button onclick="update(150, 'eTxMTprIuEOo0UvD7S2EkjIJLao12' )" class="button">
         Update 200
       </button>
     </div>
@@ -142,57 +142,81 @@ function bet(amount, game, home) {
         });
     }
 }
-
-function update(amount, id) {
+db.collection("cities").doc("DC").delete().then(function() {
+    console.log("Document successfully deleted!");
+}).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+async function update(amount, id) {
     let user = firebase.auth().currentUser;
     if(user) {
       var docRef = db.collection("users").doc(user.uid);
-      var previousBet;
-      db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
+      var homeBet;
+      var previousBet = await db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
         if (doc.exists) {
+          homeBet = doc.data().betOnHome;
           if(doc.data().betOnHome) {
-          previousBet = doc.data().homeBet;
+          return doc.data().homeBet;
+          } else {
+            return doc.data().awayBet;
           }
         }
       });
       // .collection("bets").doc("active bets");
       docRef.get().then(function (doc) {
         var filename = 0;
+        console.log(homeBet);
         if (doc.exists) {
           finalAmount = doc.data().money - amount + previousBet;
           if(finalAmount >= 0) {
+            if(amount > 2*previousBet) {
+              throw "amount is more than twice the previous bet";
+            } else if(amount <= previousBet) {
+              throw "amount is less than or equal to the previous bet";
+            }
+            console.log(amount);
             db.collection("users").doc(user.uid).update({ money: finalAmount });
+            console.log(finalAmount);
+            if(homeBet) {
+              db.collection("users").doc(user.uid).collection("activeBets").doc(id).update({ homeBet: amount });
+            } else {
+              db.collection("users").doc(user.uid).collection("activeBets").doc(id).update({ awayBet: amount });
+            }
           } else {
-            throw "amount in account is not sufficient";
+            throw "The amount in your account is not sufficient for this transaction";
           }
         } else {
           throw "bet cannot be placed since user doesn't exist";
         }
 
-        var gameName = (game.Home + "|" + game.Away).replace(/ /g, "_");
-          var index = ""+doc.data().counter;
-          const ID = user.uid + index;
-          docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
-          if(!docRef.get().exists) {
-            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
-          }
-          if(home) {
-            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
+          if(homeBet) {
+            db.collection("bets").doc(id).update({ homeBet: amount });
           } else {
-            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount , betOnHome: false});
-          }
-
-          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
-          if(home) {
-            db.collection("bets").doc(ID).update({ homeBet: amount });
-          } else {
-            db.collection("bets").doc(ID).update({ awayBet: amount, betOnHome: false });
+            db.collection("bets").doc(id).update({ awayBet: amount});
           }
 
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
         });
+    }
+}
+
+function del(id) {
+    let user = firebase.auth().currentUser;
+    if(user) {
+      var docRef = db.collection("users").doc(user.uid);
+      var homeBet;
+      db.collection("users").doc(user.uid).collection("activeBets").doc(id).delete().then(function() {
+          console.log("Document successfully deleted!");
+      }).catch(function(error) {
+          console.error("Error removing document: ", error);
+      });
+      db.collection("bets").doc(id).delete().then(function() {
+          console.log("Document successfully deleted!");
+      }).catch(function(error) {
+          console.error("Error removing document: ", error);
+      });
     }
 }
 
