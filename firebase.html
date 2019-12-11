@@ -17,11 +17,23 @@
                 </button>
     </div>
 
-    <!-- <div id = 'subtract'>
-      <button onclick="subtract200()" class="button">
+    <div id = 'subtract'>
+      <button onclick="bet(100, lol[0] ,true)" class="button">
         Subtract 200
       </button>
-    </div> -->
+    </div>
+
+    <div id = 'update'>
+      <button onclick="bet(100, lol[0] ,true)" class="button">
+        Update 200
+      </button>
+    </div>
+
+    <div id = 'delete'>
+      <button onclick="bet(100, lol[0] ,true)" class="button">
+        Delete
+      </button>
+    </div>
 
         
   <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
@@ -37,7 +49,9 @@
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
     <!-- Initialize Firebase -->
     <!-- <script src="/__/firebase/init.js"></script> -->
-  <script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script >
       var firebaseConfig = {
   apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
   authDomain: "sportsbetting-61b8e.firebaseapp.com",
@@ -77,6 +91,110 @@ function subtract200() {
     }
 }
 
+function bet(amount, game, home) {
+    let user = firebase.auth().currentUser;
+    if(user) {
+      var docRef = db.collection("users").doc(user.uid);
+      // .collection("bets").doc("active bets");
+      docRef.get().then(function (doc) {
+        var filename = 0;
+        if (doc.exists) {
+          finalAmount = doc.data().money - amount;
+          if(finalAmount >= 0) {
+            db.collection("users").doc(user.uid).update({ money: finalAmount });
+            console.log(finalAmount);
+            filename = doc.data().numberOfBets + 1;
+            var c = doc.data().counter + 1;
+            db.collection("users").doc(user.uid).update({ numberOfBets: filename });
+            db.collection("users").doc(user.uid).update({ counter: filename });
+            console.log(filename);
+          } else {
+            throw "amount in account is not sufficient";
+          }
+        } else {
+          throw "bet cannot be placed since user doesn't exist";
+        }
+
+        var gameName = (game.Home + "|" + game.Away).replace(/ /g, "_");
+          var index = ""+doc.data().counter;
+          const ID = user.uid + index;
+          docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
+          if(!docRef.get().exists) {
+            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          }
+          if(home) {
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
+          } else {
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount });
+          }
+
+          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          if(home) {
+            db.collection("bets").doc(ID).update({ homeBet: amount });
+          } else {
+            db.collection("bets").doc(ID).update({ awayBet: amount });
+          }
+
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+    }
+}
+
+function update(amount, id) {
+    let user = firebase.auth().currentUser;
+    if(user) {
+      var docRef = db.collection("users").doc(user.uid);
+      var previousBet;
+      db.collection("users").doc(user.uid).collection("activeBets").doc(id).get().then(function (doc) {
+        if (doc.exists) {
+          previousBet = doc.data();
+        }
+      });
+      // .collection("bets").doc("active bets");
+      docRef.get().then(function (doc) {
+        var filename = 0;
+        if (doc.exists) {
+          finalAmount = doc.data().money - amount;
+          if(finalAmount >= 0) {
+            db.collection("users").doc(user.uid).update({ money: finalAmount });
+          } else {
+            throw "amount in account is not sufficient";
+          }
+        } else {
+          throw "bet cannot be placed since user doesn't exist";
+        }
+
+        var gameName = (game.Home + "|" + game.Away).replace(/ /g, "_");
+          var index = ""+doc.data().counter;
+          const ID = user.uid + index;
+          docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
+          if(!docRef.get().exists) {
+            docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          }
+          if(home) {
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
+          } else {
+            db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount });
+          }
+
+          var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName});
+          if(home) {
+            db.collection("bets").doc(ID).update({ homeBet: amount });
+          } else {
+            db.collection("bets").doc(ID).update({ awayBet: amount });
+          }
+
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+    }
+}
+
+
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
 
@@ -90,6 +208,8 @@ firebase.auth().onAuthStateChanged(function (user) {
             console.log(doc.data().count);
           } else {
             db.collection("users").doc(user.uid).set({ money: 1000 });
+            db.collection("users").doc(user.uid).set({ numberOfBets: 0 });
+            db.collection("users").doc(user.uid).set({ counter: 0 });
           }
         });
 
@@ -100,6 +220,81 @@ firebase.auth().onAuthStateChanged(function (user) {
 
     }
 });
+var lol;
+const api_key = '7cdcedbd24cadaaa02107e695738d034'
+    let sport_key = "americanfootball_nfl"
+    async function getOdds(id) {
+      const odds = await axios.get('https://api.the-odds-api.com/v3/odds', {
+        params: {
+          api_key: api_key,
+          sport: sport_key,
+          region: 'us', // uk | us | au
+          mkt: 'h2h' // h2h | spreads | totals
+        }
+      });
+      console.log('Remaining requests', odds.headers['x-requests-remaining'])
+      return odds.data.data;
+    };
+    async function printOdds() {
+      var gameOdds = [];
+      let result = await getOdds();
+      console.log(result);
+      //let result = result.data;
+      for (let i = 0; i < result.length; i++) {
+        var odds = {};
+        console.log(result[0])
+        odds["Home"] = result[i].home_team;
+        if (odds["Home"] === result[i].teams[0]) {
+          odds["odds"] = avgOdds(result[i].sites, 0);
+          odds["Away"] = result[i].teams[1];
+        } else {
+          odds["odds"] = avgOdds(result[i].sites, 1);
+          odds["Away"] = result[i].teams[0];
+        }
+        odds["date"] = getDate(result[i].commence_time);
+
+        gameOdds.push(odds);
+      }
+      lol = gameOdds;
+      console.log(gameOdds);
+      // for (let i = 0; i < gameOdds.length; i++) {
+      //   let clone = document.getElementById("gameCard").cloneNode(true);
+      //   let names = clone.querySelector("#teamNames");
+      //   names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
+      //   let oddsHtml = clone.querySelector("#gameOdds");
+      //   oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+      //   let gameDate = clone.querySelector("#gameDate");
+      //   gameDate.innerHTML = gameOdds[i].date;
+      //   clone.style.display = "flex";
+      //   document.getElementById("cardHolder").appendChild(clone);
+      // }
+    }
+    function getDate(UNIX_timestamp) {
+      var a = new Date(UNIX_timestamp * 1000);
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var sec = a.getSeconds();
+      var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+      return time;
+    }
+    function avgOdds(sites, home) {
+      let firstOdd = 0;
+      let secondOdd = 0;
+      for (let i = 0; i < sites.length; i++) {
+        firstOdd += sites[i].odds.h2h[0];
+        secondOdd += sites[i].odds.h2h[1];
+      }
+      if (home === 0) {
+        return [firstOdd / sites.length, secondOdd / sites.length];
+      }
+      return [secondOdd / sites.length, firstOdd / sites.length];
+
+    }
+    printOdds();
   </script>
 </body>
 

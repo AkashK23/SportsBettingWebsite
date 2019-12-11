@@ -4,24 +4,67 @@
 
 
 
+<style>            
+
+/* li { display: inline-block; } */
+
+#myDIV {
+  height: 250px;
+  width: 250px;
+  overflow: auto;
+  background: green;
+}
+
+#content {
+  margin:500px;
+  height: 800px;
+  width: 2000px;
+  background-color: coral;
+}
+
+
+    </style>
+
+
+
+<p>Click the button to scroll to the top of the element with id="content".</p>
+
+
+<div id="myDIV">
+  <div id="content">
+  Some text inside an element.
+  </div>
+</div>
+
 
       <input type="text" id="myInput" onkeyup="myFunction2()"  title="Type in a name">
 
+
       <ul id="myUL">
-        <li><a href="#">Adele</a></li>
-        <li><a href="#">Agnes</a></li>
 
-        <li><a href="#">Billy</a></li>
-        <li><a href="#">Bob</a></li>
+        <li><a href="https://www.panthers.com/">Carolina Panthers         </a></li>
+        <li><a href="#">Green Bay Packers</a></li>
 
-        <li><a href="#">Calvin</a></li>
-        <li><a href="#">Christina</a></li>
-        <li><a href="#">Cindy</a></li>
+        <li><a href="#">New England Patriots</a></li>
+        <li><a href="#">Kansas City Chiefs</a></li>
+
+        <li><a href="#">Philadelphia Eagles</a></li>
+        <li><a href="#">Chicago Bears</a></li>
+        <li><a href="#">Los Angeles Rams</a></li>
       </ul>
 
 
 
 <script> 
+
+
+function myFunction2() {
+  var elmnt = document.getElementById("content");
+  elmnt.scrollIntoView();
+}
+
+
+
 var button = document.getElementById("myInput"); 
 const debounce = (func, delay) => { 
     let debounceTimer 
@@ -51,7 +94,7 @@ button.addEventListener('click', debounce(function()
           }
         }
                         
-                        , 1000)); 
+                        , 3000)); 
                    
         
         

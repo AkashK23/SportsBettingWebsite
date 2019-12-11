@@ -22,61 +22,40 @@
 <body>
 
     <div class="flex bg-gray-200 w-full h-full">
-        <div class="flex flex-col bg-blue-800 h-full w-3/12 ">
-            <div class="flex flex-col p-4 border-r-8 border-b-8 border-blue-200 m-4">
-                <p class="flex-col font-mono text-lg text-6xl font-extrabold text-white">
-                    Sports
-                </p>
-                <p class="flex-col font-mono text-lg text-6xl font-extrabold text-white">
-                    Betting
-                </p>
-                <p class="flex-col font-mono text-lg text-6xl font-extrabold text-white">
-                    Website
-                </p>
-            </div>
-
-            <div class="flex flex-col p-4">
-                <div class="flex m-2 border-blue-200 border-r-8">
-                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter mt-2" href="dashboard3.html">
-                        Home
-                    </a>
-                </div>
-                <div class="flex m-2 mt-2">
-                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="account.html">
-                        Account
-                    </a>
-                </div>
-                <div class="flex m-2 mt-2">
-                    <a class="font-mono text-lg text-white text-4xl hover:bg-grey-lighter" href="about.html">
-                        About
-                    </a>
-                </div>
-            </div>
+        <div class="flex bg-blue-200 h-full w-2/12 text-center">
+            1
         </div>
         <div class="flex flex-col bg-blue-800 h-full w-5/6">
-            <div class="flex h-24 bg-gray-900 p-4">
-                <div class="flex w-1/6">
-                    <div class="flex rounded-lg border-white border-4 p-1 ml-8  ">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 22 22" width="36" height="36">
-                            <path class="heroicon-ui flex" fill="#ffffff"
-                                d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                        </svg>
-                        <div class="flex pl-4">
-                            <input class="flex bg-transparent text-white text-2xl focus:outline-none" type="text"
-                                id="myInput" placeholder="Search...">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-end w-5/6">
-                    <button
-                        class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded text-3xl ">
-                        Logout
-                    </button>
-                </div>
+            <div class="flex h-20 bg-gray-600">
+            2
             </div>
-            <div class="flex flex-col h-full bg-white p-6 overflow-auto" id="cardHolder">
 
-                <div class="hidden flex-col justify-center rounded-lg m-4 shadow-xl bg-gray-300" id="gameCard">
+
+       <input type="text" id="myInput" onkeyup="myFunction2()"  name="q"
+       aria-label="Search through site content"">
+
+       <style>            li { display: inline-block; }
+
+        </style>
+
+       <ul id="myUL">
+ 
+         <li><a href="https://www.panthers.com/">Carolna Panthers</a></li>
+         <li><a href="#">Green Bay Packers</a></li>
+ 
+         <li><a href="#">New England Patriots</a></li>
+         <li><a href="#">Kansas City Chiefs</a></li>
+ 
+         <li><a href="#">Philadelphia Eagles</a></li>
+         <li><a href="#">Chicago Bears</a></li>
+         <li><a href="#">Los Angeles Rams</a></li>
+       </ul>
+ 
+
+
+            <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
+
+                <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
                     <div>
                         <div class="flex flex-col justify-center p-2">
                             <div class="flex justify-center">
@@ -92,18 +71,18 @@
                         <div class="flex justify-around p-2">
                             <div class="flex">
                                 <button
-                                    class="bg-blue-800 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded-full homeBet text-xl">
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full homeBet">
                                     Bet on Home
                                 </button>
                             </div>
                             <div class="flex">
                                 <input
-                                    class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl"
+                                    class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     type="number" name="quantity" min="1" id="betField" placeholder="Bet Amount">
                             </div>
                             <div class="flex">
                                 <button
-                                    class="bg-blue-800 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded-full awayBet text-xl">
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full awayBet">
                                     Bet on Away
                                 </button>
                             </div>
@@ -114,6 +93,9 @@
             </div>
         </div>
     </div>
+
+
+    
 
 
 
@@ -183,10 +165,6 @@
                 let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
                 console.log(id);
                 clone.id = id;
-                let homeClass = gameOdds[i].Home.replace(/ /g, "-");
-                let awayClass = gameOdds[i].Away.replace(/ /g, "-");
-                clone.classList.add(homeClass);
-                clone.classList.add(awayClass);
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
@@ -259,6 +237,45 @@
         }
     </script>
     <!-- <script type="module" src="script.js"></script> -->
+
+<!-- debounce script -->
+
+    <script> 
+            var button = document.getElementById("myInput"); 
+            const debounce = (func, delay) => { 
+                let debounceTimer 
+                return function() { 
+                    const context = this
+                    const args = arguments 
+                        clearTimeout(debounceTimer) 
+                            debounceTimer 
+                        = setTimeout(() => func.apply(context, args), delay) 
+                } 
+            }  
+            button.addEventListener('click', debounce(function() 
+            {
+                      var input, filter, ul, li, a, i, txtValue;
+                      input = document.getElementById("myInput");
+                      filter = input.value.toUpperCase();
+                      ul = document.getElementById("myUL");
+                      li = ul.getElementsByTagName("li");
+                      for (i = 0; i < li.length; i++) {
+                        a = li[i].getElementsByTagName("a")[0];
+                        txtValue = a.textContent || a.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                          li[i].style.display = "";
+                        } else {
+                          li[i].style.display = "none";
+                        }
+                      }
+                    }
+                                    
+                                    , 3000)); 
+                               
+                    
+                    
+                    
+            </script> 
 </body>
 
 
