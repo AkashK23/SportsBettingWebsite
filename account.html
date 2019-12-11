@@ -29,15 +29,19 @@
                 </div>
                 <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
                     <button id="seeBets" onclick="fillActiveBets()">Click to See Active Bets</button>
-                    <div class="flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
+                    <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
                         <div>
                             <div class="flex flex-col justify-center p-2">
                                 <div class="flex justify-center">
                                     <p class="text-center text-4xl" id="teamNames">Home vs Away</p>
                                 </div>
                                 <div class="flex justify-center">
-                                    <p class="text-center text-2xl" id="teamBetOn">Team Bet: ,</p>
-                                    <p class="text-center text-2xl" id="OddsBetOn">Odds: ,</p>
+                                    <p class="text-center text-2xl" id="teamBetOn">Team Bet: </p>
+                                </div>
+                                <div class="flex justify-center">
+                                    <p class="text-center text-2xl" id="OddsBetOn">Odds: </p>
+                                </div>
+                                <div class="flex justify-center">
                                     <p class="text-center text-2xl" id="ProfitIfWin">Profit(if win): $</p>
                                 </div>
                                 <div class="flex justify-center">
@@ -47,17 +51,17 @@
                             <div class="flex justify-around p-2">
                                 <div class="flex">
                                     <input
-                                        class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        class="changeBetAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         type="number" name="quantity" min="1" id="betField" placeholder="Add to previous bet">
                                     <button
-                                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
+                                        class="changeBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">
                                         Change Bet
                                     </button>
                                     
                                 </div>
                                 <div class="flex">
                                     <button
-                                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onclick="fillActiveBets()">
+                                        class="deleteBet bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full" onclick="fillActiveBets()">
                                         Delete Bet
                                     </button>
                                 </div>
@@ -166,6 +170,7 @@
                                 console.log(moneyBet);
                                 console.log(odds);
                                 let clone = document.getElementById("gameCard").cloneNode(true);
+                                clone.classList.remove("hidden");
                                 //let id = (gameOdds[i].Home + "|" + gameOdds[i].Away).replace(/ /g, "_");
                                 console.log(id);
                                 clone.id = id;
@@ -173,40 +178,44 @@
                                 // let awayClass = gameOdds[i].Away.replace(/ /g, "-");
                                 // clone.classList.add(homeClass);
                                 // clone.classList.add(awayClass);
-                                // let names = clone.querySelector("#teamNames");
-                                // names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
-                                // let oddsHtml = clone.querySelector("#gameOdds");
-                                // oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+                                let names = clone.querySelector("#teamNames");
+                                let homeTeam = gameName.split("|")[0].replace(/_/g, " ");
+                                let awayTeam = gameName.split("|")[1].replace(/_/g, " ");
+                                console.log(homeTeam);
+                                names.innerHTML = homeTeam + " vs " + awayTeam;
+                                let oddsHtml = clone.querySelector("#OddsBetOn");
+                                oddsHtml.innerHTML += odds.toString().substring(0, 4) + "\n";
+                                let teamBet = clone.querySelector("#teamBetOn");
+                                if (teamBetOn) {
+                                    teamBet.innerHTML += homeTeam;
+                                } else {
+                                    teamBet.innerHTML += awayTeam;
+                                }
+
+                                let profitWin = clone.querySelector("#ProfitIfWin");
+                                profitWin.innerHTML += (moneyBet * odds).toString().substring(0, 4);
+                                let dateGame = clone.querySelector("#gameDate");
+                                dateGame.innerHTML = date;
                                 // let gameDate = clone.querySelector("#gameDate");
                                 // gameDate.innerHTML = gameOdds[i].date;
                                 // clone.style.display = "flex";
                                 // // clone.querySelector(".selectTeam").options[1].innerHTML = gameOdds[i]["Home"];
                                 // // clone.querySelector(".selectTeam").options[2].innerHTML = gameOdds[i]["Away"];
-                                // clone.querySelector(".homeBet").addEventListener("click", function () {
-                                //     //var card = event.target.parentElement.parentElement;
-                                //     //console.log(event.target.parentElement.parentElement.childNodes);
-                                //     //let parent = event.target.parentElement.parentElement.querySelector(".betAmount").value;
-                                //     let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
-                                //     console.log(amount);
-                                //     //let id = event.target.parentElement.parentElement.id;
-                                //     //var home;
+                                clone.querySelector(".changeBet").addEventListener("click", function () {
+                                    let amount = event.target.parentElement.parentElement.querySelector(".changeBetAmount").value;
+                                    console.log(amount);
+                                    if (!isNan(amount) && amount > 0 && amount !== '') {
+                                        if (amount > 0.5 * moneyBet) {
+                                            amount = 0.5 * moneyBet;
+                                        }
+                                        changeBet(amount, id);
+                                    }
+                                    
+                                });
 
-                                //     buttonEvent(amount, gameOdds[i], true);
-                                //     //viewReplies(id, card);
-                                // });
-
-                                // clone.querySelector(".awayBet").addEventListener("click", function () {
-                                //     //var card = event.target.parentElement.parentElement;
-                                //     // let amount = event.target.previousSibling.previousSibling.value;
-                                //     // console.log(event.target.previousSibling.previousSibling.value);
-                                //     // let id = event.target.parentElement.parentElement.id;
-                                //     // var home;
-                                //     let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
-                                //     console.log(amount);
-
-                                //     buttonEvent(amount, gameOdds[i], false);
-                                //     //viewReplies(id, card);
-                                // });
+                                clone.querySelector(".deleteBet").addEventListener("click", function () {
+                                    deleteBet(id);
+                                });
 
                                 document.getElementById("cardHolder").appendChild(clone);
                             }
@@ -215,6 +224,13 @@
                     }
 
                 }
+            }
+            function changeBet() {
+
+            }
+
+            function deleteBet() {
+
             }
             function getDate(UNIX_timestamp) {
                 var a = new Date(UNIX_timestamp * 1000);
