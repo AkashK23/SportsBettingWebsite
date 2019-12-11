@@ -113,9 +113,9 @@
     <div class="hero-image">
         <div class="topnavbar">
             <div class="float-top">
-
+                <!-- <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home </a> -->
                 <a href="#" onclick="sign_in()"><i class="fa fa-fw fa-user"></i> Login</a>
-                <a href="publicBest.html">View Games</a>
+                <a href="publicBest.html"> View Games</a>
             </div>
         </div>
         <div class="hero-text">
@@ -124,12 +124,9 @@
         </div>
     </div>
 
-
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
     <script type="module" src="script.js"></script>
     <!-- <script src="script.js"></script> -->
-
-    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
-
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 
@@ -160,6 +157,7 @@
         function sign_in() {
             firebase.auth().signInWithRedirect(provider);
         }
+
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 var user = firebase.auth().currentUser;
@@ -177,6 +175,9 @@
             }
         });
     </script>
+
+
+
 </body>
 
 </html>

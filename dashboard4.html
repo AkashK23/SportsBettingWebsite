@@ -27,105 +27,175 @@
         </div>
         <div class="flex flex-col bg-blue-800 h-full w-5/6">
             <div class="flex h-20 bg-gray-600">
-            2
+                2
             </div>
 
 
-       <input type="text" id="myInput" onkeyup="myFunction2()"  name="q">
+            <input type="text" id="myInput" onkeyup="myFunction2()" name="q">
 
-       <style>            li { display: inline-block; }
+            <style>
+                li {
+                    display: inline-block;
+                }
+            </style>
 
-        </style>
+            <div class="flex overflow-x-auto">
 
-<div class="flex overflow-x-auto">
+                <ul class="flex" id="myUL">
 
-    <ul class="flex" id="myUL">
-    
-        <li><a href="#">Green Bay Packers</a></li>
-    
-        <li><a href="#">New England Patriots</a></li>
-        <li><a href="#">Cardinals</a></li>
-    
-        <li><a href="#">Philadelphia Eagles</a></li>
-        <li><a href="#">Chicago Bears</a></li>
-        <li><a href="#">Los Angeles Rams</a></li>
-    
-    
-        <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
-        <li><a href="#">Green Bay Packers</a></li>
-    
-        <li><a href="#">New England Patriots</a></li>
-        <li><a href="#">Cardinals</a></li>
-    
-        <li><a href="#">Philadelphia Eagles</a></li>
-        <li><a href="#">Chicago Bears</a></li>
-        <li><a href="#">Los Angeles Rams</a></li>
-    
-    
-    
-        <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
-        <li><a href="#">Green Bay Packers</a></li>
-    
-        <li><a href="#">New England Patriots</a></li>
-        <li><a href="#">Cardinals</a></li>
-    
-        <li><a href="#">Philadelphia Eagles</a></li>
-        <li><a href="#">Chicago Bears</a></li>
-        <li><a href="#">Los Angeles Rams</a></li>
-    
-    
-        <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
-        <li><a href="#">Green Bay Packers</a></li>
-    
-        <li><a href="#">New England Patriots</a></li>
-        <li><a href="#">Cardinals</a></li>
-    
-        <li><a href="#">Philadelphia Eagles</a></li>
-        <li><a href="#">Chicago Bears</a></li>
-        <li><a href="#">Los Angeles Rams</a></li>
-        </ul>
-</div>
-       
+                    <li><a href="#">Green Bay Packers</a></li>
 
-<div class="overflow-x-auto">
+                    <li><a href="#">New England Patriots</a></li>
+                    <li><a href="#">Cardinals</a></li>
 
-         <div class="flex"><button class="flex" onclick="debouncefunction('Arizona-Cardinals')"> Carolina Panthers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Atlanta-Falcons')"> Atlanta Falcons </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Baltimore-Ravens')"> Baltimore Ravens </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Buffalo-Bills')"> Buffalo Bills </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Carolina-Panthers')"> Carolina Panthers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Chicago-Bears')"> Chicago Bears </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Cincinnati-Bengals')"> Cincinnati Bengals </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Dallas-Cowboys')"> Dallas Cowboys </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Denver-Broncos')"> Denver Broncos </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Detroit-Lions')"> Detroit Lions </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Green-Bay-Packers')"> Green Bay Packers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Houston-Texans')"> Houston Texans </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Indianapolis-Colts')"> Indianapolis Colts </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Jacksonville-Jaguars')"> Jacksonville Jaguars </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Kansas-City-Chiefs')"> Kansas City Chiefs </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Los-Angeles-Chargers')"> Los Angeles Chargers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Los-Angeles-Rams')"> Los Angeles Rams </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Miami-Dolphins')"> Miami Dolphins </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Minnesota-Vikings')"> Minnesota Vikings </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('New-England-Patriots')"> New England Patriots </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('New-Orleans-Saints')"> New Orleans Saints </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('New-York-Giants')"> New York Giants </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('New-York-Jets')"> New York Jets </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Oakland-Raiders')"> Oakland Raiders </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Philadelphia-Eagles')"> Philadelphia Eagles </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Pittsburgh-Steelers')"> Pittsburgh Steelers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Saint-Steelers')"> Saint Steelers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('San-Francisco-49ers')"> San Francisco 49ers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Seattle-Seahawks')"> Seattle Seahawks </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Tampa-Bay-Buccaneers')"> Tampa Bay Buccaneers </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Tennessee-Titans')"> Tennessee Titans </button>
-            <div class="flex"><button class="flex" onclick="debouncefunction('Washington-Redskins')"> Washington Redskins </button>
+                    <li><a href="#">Philadelphia Eagles</a></li>
+                    <li><a href="#">Chicago Bears</a></li>
+                    <li><a href="#">Los Angeles Rams</a></li>
 
-                
+
+                    <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
+                    <li><a href="#">Green Bay Packers</a></li>
+
+                    <li><a href="#">New England Patriots</a></li>
+                    <li><a href="#">Cardinals</a></li>
+
+                    <li><a href="#">Philadelphia Eagles</a></li>
+                    <li><a href="#">Chicago Bears</a></li>
+                    <li><a href="#">Los Angeles Rams</a></li>
+
+
+
+                    <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
+                    <li><a href="#">Green Bay Packers</a></li>
+
+                    <li><a href="#">New England Patriots</a></li>
+                    <li><a href="#">Cardinals</a></li>
+
+                    <li><a href="#">Philadelphia Eagles</a></li>
+                    <li><a href="#">Chicago Bears</a></li>
+                    <li><a href="#">Los Angeles Rams</a></li>
+
+
+                    <li><a href="https://www.panthers.com/">Carolina Panthers</a></li>
+                    <li><a href="#">Green Bay Packers</a></li>
+
+                    <li><a href="#">New England Patriots</a></li>
+                    <li><a href="#">Cardinals</a></li>
+
+                    <li><a href="#">Philadelphia Eagles</a></li>
+                    <li><a href="#">Chicago Bears</a></li>
+                    <li><a href="#">Los Angeles Rams</a></li>
+                </ul>
             </div>
-      
- 
+
+            <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
+                <div class="flex h-10 m-4" id="myUL">
+                    <input class="flex" type="text" id="myInput" name="q" placeholder="hehehehehehehh"
+                        onkeyup="setTimeout(debounceSearch(), 3000)">
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Arizona-Cardinals')">
+                            Arizona Cardinals </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Atlanta-Falcons')"> Atlanta
+                            Falcons </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Baltimore-Ravens')">
+                            Baltimore Ravens </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Buffalo-Bills')"> Buffalo
+                            Bills </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Carolina-Panthers')">
+                            Carolina Panthers </button></div>
+                    <div class="flex h-10 "><button class="flex" onclick="debouncefunction('Chicago-Bears')"> Chicago
+                            Bears </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Cincinnati-Bengals')">
+                            Cincinnati Bengals </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Dallas-Cowboys')"> Dallas
+                            Cowboys </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Denver-Broncos')"> Denver
+                            Broncos </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Detroit-Lions')"> Detroit
+                            Lions </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Green-Bay-Packers')"> Green
+                            Bay Packers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Houston-Texans')"> Houston
+                            Texans </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Indianapolis-Colts')">
+                            Indianapolis Colts </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Jacksonville-Jaguars')">
+                            Jacksonville Jaguars </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Kansas-City-Chiefs')"> Kansas
+                            City Chiefs </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Los-Angeles-Chargers')"> Los
+                            Angeles Chargers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Los-Angeles-Rams')"> Los
+                            Angeles Rams </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Miami-Dolphins')"> Miami
+                            Dolphins </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Minnesota-Vikings')">
+                            Minnesota Vikings </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('New-England-Patriots')"> New
+                            England Patriots </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('New-Orleans-Saints')"> New
+                            Orleans Saints </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('New-York-Giants')"> New York
+                            Giants </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('New-York-Jets')"> New York
+                            Jets </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Oakland-Raiders')"> Oakland
+                            Raiders </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Philadelphia-Eagles')">
+                            Philadelphia Eagles </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Pittsburgh-Steelers')">
+                            Pittsburgh Steelers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Saint-Steelers')"> Saint
+                            Steelers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('San-Francisco-49ers')"> San
+                            Francisco 49ers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Seattle-Seahawks')"> Seattle
+                            Seahawks </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Tampa-Bay-Buccaneers')">
+                            Tampa Bay Buccaneers </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Tennessee-Titans')">
+                            Tennessee Titans </button></div>
+                    <div class="flex h-10"><button class="flex" onclick="debouncefunction('Washington-Redskins')">
+                            Washington Redskins </button></div>
+                </div>
+
+                <div class="hidden flex-col justify-center bg-blue-500 rounded-lg m-4 " id="gameCard">
+                    <div>
+                        <div class="flex flex-col justify-center p-2">
+                            <div class="flex justify-center">
+                                <p class="text-center text-4xl" id="teamNames">Home vs Away</p>
+                            </div>
+                            <div class="flex justify-center">
+                                <p class="text-center text-2xl" id="gameOdds">Odds:</p>
+                            </div>
+                            <div class="flex justify-center">
+                                <p class="text-center text-2xl" id="gameDate">Date:</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-around p-2">
+                            <div class="flex">
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full homeBet">
+                                    Bet on Home
+                                </button>
+                            </div>
+                            <div class="flex">
+                                <input
+                                    class="betAmount shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    type="number" name="quantity" min="1" id="betField" placeholder="Bet Amount">
+                            </div>
+                            <div class="flex">
+                                <button
+                                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full awayBet">
+                                    Bet on Away
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
 
 
             <div class="flex flex-col h-full bg-white p-6" id="cardHolder">
@@ -170,7 +240,7 @@
     </div>
 
 
-    
+
 
 
 
@@ -313,49 +383,48 @@
     </script>
     <!-- <script type="module" src="script.js"></script> -->
 
-<!-- debounce script -->
+    <!-- debounce script -->
 
-    <script> 
-
-
+    <script>
 
 
-            var button = document.getElementById("myInput"); 
-            const debounce = (func, delay) => {
-                let debounceTimer 
-                return function() { 
 
-                    const context = this
-                    const args = arguments 
-                        clearTimeout(debounceTimer) 
-                            debounceTimer 
-                        = setTimeout(() => func.apply(context, args), delay) 
-                } 
-            }  
-            button.addEventListener('click', debounce(function() 
-            {
-                      var input, filter, ul, li, a, i, txtValue;
-                      input = document.getElementById("myInput");
-                      filter = input.value.toUpperCase();
-                      ul = document.getElementById("myUL");
-                      li = ul.getElementsByTagName("li");
-                      for (i = 0; i < li.length; i++) {
-                        a = li[i].getElementsByTagName("a")[0];
-                        txtValue = a.textContent || a.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                          li[i].style.display = "";
-                        } else {
-                          li[i].style.display = "none";
-                        }
-                      }
-                    }
-                                    
-                                    , 3000)); 
-                               
-                    
-                    
-                    
-            </script> 
+
+        var button = document.getElementById("myInput");
+        const debounce = (func, delay) => {
+            let debounceTimer
+            return function () {
+
+                const context = this
+                const args = arguments
+                clearTimeout(debounceTimer)
+                debounceTimer
+                    = setTimeout(() => func.apply(context, args), delay)
+            }
+        }
+        button.addEventListener('click', debounce(function () {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+            , 3000));
+
+
+
+
+    </script>
 </body>
 
 

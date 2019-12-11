@@ -75,7 +75,15 @@
                 </div>
             </div>
             <div class="flex flex-col h-full bg-white p-6 overflow-auto" id="cardHolder">
-
+                <div id="money" class="flex-col justify-center bg-blue-500 rounded-lg m-4 ">
+                    <div>
+                        <div class="flex flex-col justify-center p-2">
+                            <div class="flex justify-center">
+                                <p id="moneyAmount" class="text-center text-4xl" id="teamNames">You Have: $<p class="text-center text-4xl" id="moneyAmount2"></p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="hidden flex-col justify-center rounded-lg m-4 shadow-xl bg-gray-300" id="gameCard">
                     <div>
                         <div class="flex flex-col justify-center p-2">
@@ -116,10 +124,66 @@
     </div>
 
 
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
 
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="module">
+        var firebaseConfig = {
+            apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
+            authDomain: "sportsbetting-61b8e.firebaseapp.com",
+            databaseURL: "https://sportsbetting-61b8e.firebaseio.com",
+            projectId: "sportsbetting-61b8e",
+            storageBucket: "sportsbetting-61b8e.appspot.com",
+            messagingSenderId: "688706831427",
+            appId: "1:688706831427:web:1a7c0b4f2ae2a8aea640f6",
+            measurementId: "G-QZQS0PGRJD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        var provider = new firebase.auth.GoogleAuthProvider();
+        function sign_in() {
+            firebase.auth().signInWithRedirect(provider);
+        }
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                console.log("user is signed in ");
+                printMoney(user);
+            } else {
+                console.log("no user is signed in ");
+            }
+        });
+        // let user = firebase.auth().currentUser;
+        // var userMoney;
+        // console.log(firebase.auth().currentUser);
+        async function printMoney(user) {
+            var userMoney;
+            if(user){
+                console.log("here");
+                var docRef = db.collection("users").doc(user.uid);
+                userMoney = await docRef.get().then(function (doc) {
+                    console.log("here");
+                    if(doc.exists) {
+                        return doc.data().money;
+                    }
+                });
+            }
+            console.log(userMoney);
+            document.getElementById("moneyAmount2").innerHTML += userMoney;
+        }
+        
         // const menuIconEl = $('.menu-icon');
         // const sidenavEl = $('.sidenav');
         // const sidenavCloseEl = $('.sidenav__close-icon');
@@ -156,7 +220,58 @@
             console.log('Remaining requests', odds.headers['x-requests-remaining'])
             return odds.data.data;
         };
+        async function bet(amount, game, home) {
+            let user = firebase.auth().currentUser;
+            if(user) {
+            var docRef = db.collection("users").doc(user.uid);
+            // .collection("bets").doc("active bets");
+            docRef.get().then(function (doc) {
+                var filename = 0;
+                if (doc.exists) {
+                var finalAmount = doc.data().money - amount;
+                if(finalAmount >= 0) {
+                    db.collection("users").doc(user.uid).update({ money: finalAmount });
+                    console.log(finalAmount);
+                    filename = doc.data().numberOfBets + 1;
+                    var c = doc.data().counter + 1;
+                    db.collection("users").doc(user.uid).update({ numberOfBets: filename });
+                    db.collection("users").doc(user.uid).update({ counter: filename });
+                    console.log(filename);
+                } else {
+                    throw "amount in account is not sufficient";
+                }
+                } else {
+                throw "bet cannot be placed since user doesn't exist";
+                }
+                document.getElementById("moneyAmount2").innerHTML -= amount;
+                var gameName = (game.Home + "|" + game.Away).replace(/ /g, "_");
+                var index = ""+doc.data().counter;
+                const ID = user.uid + index;
+                docRef = db.collection("users").doc(user.uid).collection("activeBets").doc(ID);
+                if(!docRef.get().exists) {
+                    docRef.set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
+                }
+                if(home) {
+                    db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ homeBet: amount });
+                } else {
+                    db.collection("users").doc(user.uid).collection("activeBets").doc(ID).update({ awayBet: amount , betOnHome: false});
+                }
+
+                var bets = db.collection("bets").doc(ID).set({id: ID, homeBet: 0, awayBet: 0, homeOdds: game.odds[0], awayOdds: game.odds[1], user: user.uid, game: gameName, date: game.date, betOnHome: true});
+                if(home) {
+                    db.collection("bets").doc(ID).update({ homeBet: amount });
+                } else {
+                    db.collection("bets").doc(ID).update({ awayBet: amount, betOnHome: false });
+                }
+
+                })
+                .catch(function(error) {
+                    alert(error);
+                });
+            }
+        }
         async function printOdds() {
+            
             var gameOdds = [];
             let result = await getOdds();
             console.log(result);
@@ -190,7 +305,7 @@
                 let names = clone.querySelector("#teamNames");
                 names.innerHTML = gameOdds[i].Home + " vs " + gameOdds[i].Away;
                 let oddsHtml = clone.querySelector("#gameOdds");
-                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 4) + " , " + gameOdds[i].odds[1].toString().substring(0, 4);
+                oddsHtml.innerHTML = "Odds: " + gameOdds[i].odds[0].toString().substring(0, 5) + " , " + gameOdds[i].odds[1].toString().substring(0, 5);
                 let gameDate = clone.querySelector("#gameDate");
                 gameDate.innerHTML = gameOdds[i].date;
                 clone.style.display = "flex";
@@ -205,7 +320,9 @@
                     //let id = event.target.parentElement.parentElement.id;
                     //var home;
 
-                    buttonEvent(amount, gameOdds[i], true);
+                    if (!isNaN(amount)  && amount > 0 && amount !== '') {
+                        buttonEvent(amount, gameOdds[i], true);
+                    }                    
                     //viewReplies(id, card);
                 });
 
@@ -217,8 +334,9 @@
                     // var home;
                     let amount = event.target.parentElement.parentElement.querySelector(".betAmount").value;
                     console.log(amount);
-
-                    buttonEvent(amount, gameOdds[i], false);
+                    if (!isNaN(amount) && amount > 0 && amount !== '') {
+                        buttonEvent(amount, gameOdds[i], false);
+                    }
                     //viewReplies(id, card);
                 });
 
@@ -256,6 +374,7 @@
             console.log(amount);
             console.log(gameObj);
             console.log(homeBool);
+            bet(amount, gameObj, homeBool);
         }
     </script>
     <!-- <script type="module" src="script.js"></script> -->
