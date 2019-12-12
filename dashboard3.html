@@ -68,8 +68,9 @@
                     </div>
                 </div>
                 <div class="flex justify-end w-5/6">
-                    <button 
-                        class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded text-3xl " >
+                    <button
+                        onclick="sign_out()"
+                        class="bg-transparent hover:bg-white text-white font-semibold hover:text-black py-2 px-4 border-4 border-white hover:border-transparent rounded text-3xl ">
                         Logout
                     </button>
                 </div>
@@ -77,7 +78,7 @@
             <div class="flex flex-col h-full bg-white p-6 overflow-auto" id="cardHolder">
 
                 <div class="flex flex-col flex-row  border-t-8 border-b-8 border-blue-800 border-dashed">
-                    <div class="flex flex-row overflow-x-auto">
+                    <div class="flex flex-row overflow-x-auto" id="myUL">
 
                         <div
                             class="flex flex-no-wrap text-gray-700 text-center border-red-500 bg-red-200 border-4 py-2 px-4 m-2 rounded">
@@ -246,6 +247,43 @@
 
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        var button = document.getElementById("myInput");
+        const debounce = (func, delay) => {
+            let debounceTimer
+            return function () {
+
+                const context = this
+                const args = arguments
+                clearTimeout(debounceTimer)
+                debounceTimer
+                    = setTimeout(() => func.apply(context, args), delay)
+            }
+        }
+        button.addEventListener('click', debounce(function () {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("div");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+            , 1000));
+
+
+
+
+    </script>
     <script type="module">
         var firebaseConfig = {
             apiKey: "AIzaSyAUCvhMARWj4SbCv3Bh1-mzo4OC31hIg3g",
@@ -277,15 +315,15 @@
                     if (doc.exists) {
                         console.log(doc.data().count);
                     } else {
-                        db.collection("users").doc(user.uid).set({ money: 1000, numberOfBets: 0, counter: 0});
+                        db.collection("users").doc(user.uid).set({ money: 1000, numberOfBets: 0, counter: 0 });
                     }
                 });
-                setTimeout(function(){
+                setTimeout(function () {
                     printMoney(user);
                 }, 1000);
             } else {
                 console.log("no user is signed in ");
-                window.location.href = "dashboard3.html";
+                window.location.href = "index.html";
             }
         });
         // let user = firebase.auth().currentUser;
@@ -504,11 +542,11 @@
         }
     </script>
     <script>
-    function sign_out() {
+        function sign_out() {
             firebase.auth().signOut().then(function () {
                 window.location.href = "index.html"
             }).catch(function (error) {
-            // An error happened.
+                // An error happened.
             });
         }
     </script>
