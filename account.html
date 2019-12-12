@@ -435,6 +435,16 @@
         }
 
     </script>
+
+    <script>
+        function sign_out() {
+            firebase.auth().signOut().then(function () {
+                window.location.href = "index.html"
+            }).catch(function (error) {
+                // An error happened.
+            });
+        }
+    </script>
     <!-- <script type="module" src="script.js"></script> -->
 </body>
 
