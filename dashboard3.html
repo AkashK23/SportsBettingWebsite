@@ -445,6 +445,7 @@
 
                     if (!isNaN(amount) && amount > 0 && amount !== '') {
                         buttonEvent(amount, gameOdds[i], true);
+                        event.target.parentElement.parentElement.querySelector(".betAmount").value = "";
                     }
                     //viewReplies(id, card);
                 });
@@ -459,6 +460,7 @@
                     console.log(amount);
                     if (!isNaN(amount) && amount > 0 && amount !== '') {
                         buttonEvent(amount, gameOdds[i], false);
+                        event.target.parentElement.parentElement.querySelector(".betAmount").value = "";
                     }
                     //viewReplies(id, card);
                 });
@@ -498,6 +500,7 @@
             console.log(gameObj);
             console.log(homeBool);
             bet(amount, gameObj, homeBool);
+
         }
     </script>
     <script>
